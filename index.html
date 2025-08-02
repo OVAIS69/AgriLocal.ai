@@ -27,11 +27,29 @@
                         </svg>
                         <span class="text-xl font-semibold logo-title text-white">AgriLocal</span>
                     </a>
-                    <div class="flex items-center gap-2">
+                    <!-- Desktop Navigation -->
+                    <div class="hidden md:flex items-center gap-2">
                         <a href="#about-us" id="about-us-btn" class="text-white hover:text-green-300 transition-colors font-medium px-4 py-2" data-lang-key="aboutUs">About Us</a>
                         <button id="get-started-btn" class="btn btn-ghost" data-lang-key="getStarted">Get Started</button>
                         <button id="profile-btn" class="btn btn-ghost hidden" data-lang-key="profile">Profile</button>
                     </div>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" class="md:hidden flex items-center p-2 text-white hover:text-green-300 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </nav>
+                
+                <!-- Mobile Navigation Menu -->
+                <div id="mobile-menu" class="md:hidden mt-4 glass-card rounded-lg transform -translate-y-2 opacity-0 scale-95 transition-all duration-300 ease-in-out pointer-events-none hidden">
+                    <div class="p-4 space-y-3">
+                        <a href="#about-us" id="mobile-about-us-btn" class="block text-white hover:text-green-300 transition-colors font-medium py-2 px-4 rounded-lg hover:bg-white/10" data-lang-key="aboutUs">About Us</a>
+                        <button id="mobile-get-started-btn" class="block w-full text-left text-white hover:text-green-300 transition-colors font-medium py-2 px-4 rounded-lg hover:bg-white/10" data-lang-key="getStarted">Get Started</button>
+                        <button id="mobile-profile-btn" class="block w-full text-left text-white hover:text-green-300 transition-colors font-medium py-2 px-4 rounded-lg hover:bg-white/10 hidden" data-lang-key="profile">Profile</button>
+                    </div>
+                </div>
                 </nav>
             </div>
         </header>
