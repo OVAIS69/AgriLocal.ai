@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriLocal - Farmer Blogs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-container"></div>
+    <div class="background-overlay"></div>
+
+    <div class="relative min-h-screen">
+        <header id="main-header" class="fixed top-0 left-0 right-0 z-[100] py-4">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <nav class="glass-card flex justify-between items-center p-2 rounded-full">
+                    <a href="#" class="flex items-center gap-3 pl-4">
+                        <svg width="28" height="28" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 2.5C30.4 2.5 15 18.3 15 38c0 14.9 16.2 36.5 31.1 53.4.9 1 2.3 1.5 3.7 1.5s2.8-.5 3.7-1.5C68.8 74.5 85 52.9 85 38c0-19.7-15.4-35.5-35-35.5z" fill="var(--primary-green)"/>
+                            <path d="M50 15c-12.7 0-23 10.3-23 23 0 7.5 3.6 14.1 9.2 18.4.6.4 1.3.6 2 .6 1.1 0 2.2-.6 2.8-1.7 3.3-6.1 3.2-14.7-.3-21.7C37.9 26.2 43.6 22 50 22c5.5 0 10.4 3.4 12.6 8.4 1.4 3.3 1.4 7.2 0 10.6-.6 1.2.1 2.6 1.3 3.2 1.2.6 2.6-.1 3.2-1.3 3.2-6.5 3.1-14.4-.3-20.9C63.6 18.5 57.2 15 50 15z" fill="#0f172a"/>
+                        </svg>
+                        <span class="text-xl font-semibold logo-title text-white">AgriLocal</span>
+                    </a>
+                    <div class="flex items-center gap-2">
+                        <a href="dashboard.html" class="text-white hover:text-green-300 transition-colors font-medium px-4 py-2">Dashboard</a>
+                        <a href="index.html" class="text-white hover:text-green-300 transition-colors font-medium px-4 py-2">Home</a>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <div id="app-container" class="max-w-7xl mx-auto pt-32 px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold text-white mb-4" data-lang-key="blogsTitle">Blogs For Farmers In Maharashtra</h1>
+                <p class="text-lg text-gray-300 font-light">Comprehensive farming guides and expert advice for Maharashtra farmers</p>
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="mb-8">
+                <div class="relative max-w-md mx-auto">
+                    <input type="text" id="search-input" placeholder="Search for crops, techniques, tips..." class="w-full px-4 py-3 pl-12 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 focus:ring-1 focus:ring-green-400">
+                    <svg class="absolute left-3 top-3.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Blogs Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-gray-800/50 rounded-lg p-4 hover:scale-105 transition-transform cursor-pointer" onclick="openBlogModal('sugarcane')">
+                    <div class="mb-3">
+                        <img src="https://placehold.co/400x200/0f172a/6B8E23?text=Sugarcane" alt="Sugarcane farming" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Sugarcane Farming Guide</h3>
+                    <p class="text-gray-300 text-sm mb-3">Complete guide to successful sugarcane cultivation in Maharashtra's climate and soil conditions.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-green-400 text-sm">5 min read</span>
+                        <span class="text-blue-400 text-sm">Updated: 2 days ago</span>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800/50 rounded-lg p-4 hover:scale-105 transition-transform cursor-pointer" onclick="openBlogModal('cotton')">
+                    <div class="mb-3">
+                        <img src="https://placehold.co/400x200/0f172a/6B8E23?text=Cotton" alt="Cotton farming" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Cotton Cultivation Tips</h3>
+                    <p class="text-gray-300 text-sm mb-3">Essential tips for cotton farming including pest management and irrigation techniques.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-green-400 text-sm">7 min read</span>
+                        <span class="text-blue-400 text-sm">Updated: 1 week ago</span>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800/50 rounded-lg p-4 hover:scale-105 transition-transform cursor-pointer" onclick="openBlogModal('soybean')">
+                    <div class="mb-3">
+                        <img src="https://placehold.co/400x200/0f172a/6B8E23?text=Soybean" alt="Soybean farming" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Soybean Farming in Vidarbha</h3>
+                    <p class="text-gray-300 text-sm mb-3">Comprehensive guide to soybean cultivation in Vidarbha region with market insights.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-green-400 text-sm">6 min read</span>
+                        <span class="text-blue-400 text-sm">Updated: 3 days ago</span>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800/50 rounded-lg p-4 hover:scale-105 transition-transform cursor-pointer" onclick="openBlogModal('pomegranate')">
+                    <div class="mb-3">
+                        <img src="https://placehold.co/400x200/0f172a/6B8E23?text=Pomegranate" alt="Pomegranate farming" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Pomegranate Orchard Management</h3>
+                    <p class="text-gray-300 text-sm mb-3">Best practices for pomegranate cultivation and orchard management in Maharashtra.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-green-400 text-sm">8 min read</span>
+                        <span class="text-blue-400 text-sm">Updated: 5 days ago</span>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800/50 rounded-lg p-4 hover:scale-105 transition-transform cursor-pointer" onclick="openBlogModal('turmeric')">
+                    <div class="mb-3">
+                        <img src="https://placehold.co/400x200/0f172a/6B8E23?text=Turmeric" alt="Turmeric farming" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Turmeric Farming Guide</h3>
+                    <p class="text-gray-300 text-sm mb-3">Complete guide to organic turmeric cultivation and value addition techniques.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-green-400 text-sm">4 min read</span>
+                        <span class="text-blue-400 text-sm">Updated: 1 week ago</span>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800/50 rounded-lg p-4 hover:scale-105 transition-transform cursor-pointer" onclick="openBlogModal('mango')">
+                    <div class="mb-3">
+                        <img src="https://placehold.co/400x200/0f172a/6B8E23?text=Mango" alt="Mango farming" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Mango Cultivation in Konkan</h3>
+                    <p class="text-gray-300 text-sm mb-3">Specialized guide for mango farming in Konkan region with climate-specific tips.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-green-400 text-sm">9 min read</span>
+                        <span class="text-blue-400 text-sm">Updated: 4 days ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Articles Section -->
+            <section class="mt-16 glass-card p-6">
+                <h2 class="text-2xl font-bold mb-6 text-center text-white">Featured Articles</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gray-800/30 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-white mb-2">Climate-Smart Agriculture in Maharashtra</h3>
+                        <p class="text-gray-300 text-sm mb-3">Learn about adapting farming practices to changing climate conditions in Maharashtra.</p>
+                        <span class="text-green-400 text-sm">Coming Soon</span>
+                    </div>
+                    <div class="bg-gray-800/30 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-white mb-2">Digital Tools for Modern Farming</h3>
+                        <p class="text-gray-300 text-sm mb-3">Explore the latest digital technologies and apps that can enhance your farming efficiency.</p>
+                        <span class="text-green-400 text-sm">Coming Soon</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div id="modal" class="modal fixed inset-0 z-[101] flex items-center justify-center p-4 hidden opacity-0">
+        <div class="fixed inset-0 bg-black/50" id="modal-backdrop"></div>
+        <div id="modal-content" class="modal-content w-full max-w-4xl transform scale-95 z-10">
+            <div class="flex justify-between items-center p-5 border-b border-white/10">
+                <h3 id="modal-title" class="text-2xl font-bold text-white">Modal Title</h3>
+                <button id="modal-close" class="text-gray-400 hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div id="modal-body" class="p-6 max-h-[70vh] overflow-y-auto"></div>
+        </div>
+    </div>
+    
+    <div id="language-switcher" class="lang-btn-container">
+        <button id="lang-en" class="lang-btn active">English</button>
+        <button id="lang-mr" class="lang-btn">मराठी</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
