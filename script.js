@@ -1,8 +1,8 @@
 // --- App State & Configuration ---
 let user = {}; // Initialize as empty object
 let currentLang = localStorage.getItem('agrilocalLang') || 'en'; // Load language preference
-const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"; // Replace with your actual Gemini API Key
-const WEATHER_API_KEY = "YOUR_WEATHER_API_KEY"; // Replace with your actual Weather API Key
+const GEMINI_API_KEY = "AIzaSyDoo_0AOtdDM2IV4EREyHTn13Q-5hioQbU"; // Replace with your actual Gemini API Key
+const WEATHER_API_KEY = "e55e04a5803e45a689c134510252407"; // Replace with your actual Weather API Key
 
 const translations = {
     en: {
