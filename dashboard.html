@@ -11,14 +11,61 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fade-in-up 0.6s ease-out forwards;
+        }
+        
+        .glass-card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.8); }
+        }
+        
+        .animate-glow {
+            animation: glow 2s ease-in-out infinite;
+        }
+    </style>
 </head>
 <body>
     <div class="background-container"></div>
     <div class="background-overlay"></div>
 
     <div class="relative min-h-screen">
+
         <header id="main-header" class="fixed top-0 left-0 right-0 z-[100] py-4">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
                 <nav class="glass-card flex justify-between items-center p-2 rounded-full">
                     <a href="#" class="flex items-center gap-3 pl-4">
                         <svg width="28" height="28" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -28,13 +75,12 @@
                         <span class="text-xl font-semibold logo-title text-white">AgriLocal</span>
                     </a>
                     
-                    <!-- Desktop Navigation -->
-                    <div class="hidden md:flex items-center gap-2">
-                        <a href="blogs.html" class="text-white hover:text-green-300 transition-colors font-medium px-4 py-2" data-lang-key="blogs">Blogs</a>
-                        <button id="profile-btn" class="btn btn-ghost" data-lang-key="profile">Profile</button>
-                    </div>
+                                         <div class="hidden md:flex items-center gap-2">
+                         <a href="blogs.html" class="text-white hover:text-green-300 transition-colors font-medium px-4 py-2" data-lang-key="blogs">Blogs</a>
+                         <a href="farmers-directory.html" class="text-white hover:text-green-300 transition-colors font-medium px-4 py-2" data-lang-key="farmersDirectory">Farmers Directory</a>
+                         <button id="profile-btn" class="btn btn-ghost" data-lang-key="profile">Profile</button>
+                     </div>
                     
-                    <!-- Mobile Menu Button -->
                     <button id="mobile-menu-btn" class="md:hidden flex items-center p-2 text-white hover:text-green-300 transition-colors">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -42,222 +88,238 @@
                     </button>
                 </nav>
                 
-                <!-- Mobile Navigation Menu -->
-                <div id="mobile-menu" class="md:hidden mt-4 glass-card rounded-lg transform -translate-y-2 opacity-0 scale-95 transition-all duration-300 ease-in-out pointer-events-none hidden">
-                    <div class="p-4 space-y-3">
-                        <a href="blogs.html" class="block text-white hover:text-green-300 transition-colors font-medium py-2 px-4 rounded-lg hover:bg-white/10" data-lang-key="blogs">Blogs</a>
-                        <button id="mobile-profile-btn" class="block w-full text-left text-white hover:text-green-300 transition-colors font-medium py-2 px-4 rounded-lg hover:bg-white/10" data-lang-key="profile">Profile</button>
-                    </div>
-                </div>
+                                 <div id="mobile-menu" class="md:hidden mt-4 glass-card rounded-lg transform -translate-y-2 opacity-0 scale-95 transition-all duration-300 ease-in-out hidden">
+                     <div class="p-4 space-y-3">
+                         <a href="blogs.html" class="block text-white hover:text-green-300 transition-colors font-medium py-2 px-4 rounded-lg hover:bg-white/10" data-lang-key="blogs">Blogs</a>
+                         <a href="farmers-directory.html" class="block text-white hover:text-green-300 transition-colors font-medium py-2 px-4 rounded-lg hover:bg-white/10" data-lang-key="farmersDirectory">Farmers Directory</a>
+                         <button id="mobile-profile-btn" class="block w-full text-left text-white hover:text-green-300 transition-colors font-medium py-2 px-4 rounded-lg hover:bg-white/10" data-lang-key="profile">Profile</button>
+                     </div>
+                 </div>
             </div>
         </header>
 
-        <div id="app-container" class="max-w-7xl mx-auto pt-32 px-4 sm:px-6 lg:px-8">
-            <div id="user-greeting" class="text-center mb-8 sm:mb-12"></div>
+        <main id="app-container" class="max-w-full mx-auto pt-20 sm:pt-24 lg:pt-32 px-3 sm:px-4 lg:px-8">
             
-            <!-- Search Bar -->
-            <div class="mb-6 sm:mb-8">
-                <div class="relative max-w-md mx-auto">
-                    <input type="text" id="search-input" placeholder="Search for crops, weather, tips..." class="w-full px-4 py-3 pl-12 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 focus:ring-1 focus:ring-green-400">
-                    <svg class="absolute left-3 top-3.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                </div>
-            </div>
+                         <div id="user-greeting" class="text-center mb-6 sm:mb-8 lg:mb-12"></div>
+             
+             <section class="mb-4 sm:mb-6 lg:mb-8" aria-label="Search">
+                 <div class="relative max-w-sm sm:max-w-md mx-auto">
+                     <input type="text" id="search-input" placeholder="Search for crops, weather, tips..." class="w-full px-3 sm:px-4 py-2 sm:py-3 pl-10 sm:pl-12 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 focus:ring-1 focus:ring-green-400 text-sm sm:text-base">
+                     <svg class="absolute left-2 sm:left-3 top-2 sm:top-3.5 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                     </svg>
+                 </div>
+             </section>
             
             <div id="dashboard-content">
-                <h2 class="text-2xl sm:text-3xl font-bold text-center text-white mb-6 sm:mb-8" data-lang-key="dashboardTitle">Your Farm Dashboard</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
-                    <!-- Weather Widget -->
-                    <div class="glass-card p-4 sm:p-6 hover:scale-105 transition-transform cursor-pointer" onclick="handleWeatherWidget()">
-                        <div class="flex items-center justify-between mb-3 sm:mb-4">
-                            <h3 class="text-base sm:text-lg font-semibold text-white" data-lang-key="weatherTitle">Weather</h3>
-                            <svg class="w-6 h-6 sm:w-8 sm:h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
-                            </svg>
-                        </div>
-                        <div id="weather-data" class="text-center">
-                            <div class="text-2xl sm:text-3xl font-bold text-white mb-2">--°C</div>
-                            <div class="text-xs sm:text-sm text-gray-300" data-lang-key="loadingWeather">Loading...</div>
-                        </div>
-                    </div>
+                                 <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-center text-white mb-4 sm:mb-6 lg:mb-8" data-lang-key="dashboardTitle">Your Farm Dashboard</h2>
+                 
+                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+                                         <article class="glass-card p-3 sm:p-4 lg:p-6 hover:scale-105 transition-all duration-300 cursor-pointer animate-fade-in-up" style="animation-delay: 0.1s;" onclick="handleWeatherWidget()">
+                         <div class="flex items-center justify-between mb-3 sm:mb-4">
+                             <h3 class="text-sm sm:text-base lg:text-lg font-semibold text-white" data-lang-key="weatherTitle">Weather</h3>
+                             <svg class="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+                             </svg>
+                         </div>
+                         <div id="weather-data" class="text-center">
+                             <div class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-1 sm:mb-2">--°C</div>
+                             <div class="text-xs sm:text-sm text-gray-300" data-lang-key="loadingWeather">Loading...</div>
+                         </div>
+                     </article>
 
-                    <!-- Planting Advisor -->
-                    <div id="planting-card" class="glass-card p-4 sm:p-6 hover:scale-105 transition-transform cursor-pointer">
-                        <div class="flex items-center justify-between mb-3 sm:mb-4">
-                            <h3 class="text-base sm:text-lg font-semibold text-white" data-lang-key="cardPlantingTitle">Planting</h3>
-                            <svg class="w-6 h-6 sm:w-8 sm:h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                            </svg>
-                        </div>
-                        <p class="text-xs sm:text-sm text-gray-300" data-lang-key="cardPlantingSub">AI-driven planting dates</p>
-                    </div>
+                                         <article id="planting-card" class="glass-card p-3 sm:p-4 lg:p-6 hover:scale-105 transition-all duration-300 cursor-pointer animate-fade-in-up" style="animation-delay: 0.2s;" onclick="handlePlantingAdvisor()">
+                         <div class="flex items-center justify-between mb-3 sm:mb-4">
+                             <h3 class="text-sm sm:text-base lg:text-lg font-semibold text-white" data-lang-key="cardPlantingTitle">Planting</h3>
+                             <svg class="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                             </svg>
+                         </div>
+                         <p class="text-xs sm:text-sm text-gray-300" data-lang-key="cardPlantingSub">AI-driven planting dates</p>
+                     </article>
 
-                    <!-- Irrigation -->
-                    <div id="irrigation-card" class="glass-card p-4 sm:p-6 hover:scale-105 transition-transform cursor-pointer">
-                        <div class="flex items-center justify-between mb-3 sm:mb-4">
-                            <h3 class="text-base sm:text-lg font-semibold text-white" data-lang-key="cardIrrigationTitle">Irrigation</h3>
-                            <svg class="w-6 h-6 sm:w-8 sm:h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
-                            </svg>
-                        </div>
-                        <p class="text-xs sm:text-sm text-gray-300" data-lang-key="cardIrrigationSub">Precise watering schedules</p>
-                    </div>
+                                         <article id="irrigation-card" class="glass-card p-3 sm:p-4 lg:p-6 hover:scale-105 transition-all duration-300 cursor-pointer animate-fade-in-up" style="animation-delay: 0.3s;" onclick="handleIrrigation()">
+                         <div class="flex items-center justify-between mb-3 sm:mb-4">
+                             <h3 class="text-sm sm:text-base lg:text-lg font-semibold text-white" data-lang-key="cardIrrigationTitle">Irrigation</h3>
+                             <svg class="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                             </svg>
+                         </div>
+                         <p class="text-xs sm:text-sm text-gray-300" data-lang-key="cardIrrigationSub">Precise watering schedules</p>
+                     </article>
 
-                    <!-- Pest Diagnosis -->
-                    <div id="pest-card" class="glass-card p-4 sm:p-6 hover:scale-105 transition-transform cursor-pointer">
-                        <div class="flex items-center justify-between mb-3 sm:mb-4">
-                            <h3 class="text-base sm:text-lg font-semibold text-white" data-lang-key="cardPestTitle">Pest Control</h3>
-                            <svg class="w-6 h-6 sm:w-8 sm:h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                        </div>
-                        <p class="text-xs sm:text-sm text-gray-300" data-lang-key="cardPestSub">Upload a photo for analysis</p>
-                    </div>
+                                         <article id="pest-card" class="glass-card p-3 sm:p-4 lg:p-6 hover:scale-105 transition-all duration-300 cursor-pointer animate-fade-in-up" style="animation-delay: 0.4s;" onclick="handlePestDiagnosis()">
+                         <div class="flex items-center justify-between mb-3 sm:mb-4">
+                             <h3 class="text-sm sm:text-base lg:text-lg font-semibold text-white" data-lang-key="cardPestTitle">Pest Control</h3>
+                             <svg class="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                             </svg>
+                         </div>
+                         <p class="text-xs sm:text-sm text-gray-300" data-lang-key="cardPestSub">Upload a photo for analysis</p>
+                     </article>
+
+                                         <article id="chatbot-card" class="glass-card p-3 sm:p-4 lg:p-6 hover:scale-105 transition-all duration-300 cursor-pointer relative overflow-hidden animate-fade-in-up" style="grid-column: span 2; background: linear-gradient(135deg, rgba(107, 142, 35, 0.2), rgba(139, 92, 246, 0.2)); border: 1px solid rgba(107, 142, 35, 0.3); animation-delay: 0.5s;" onclick="openAgriBot()">
+                         <div class="absolute top-1 sm:top-2 right-1 sm:right-2 bg-gradient-to-r from-green-500 to-purple-600 text-white text-xs px-2 py-1 rounded-full font-semibold">
+                             🔥 NEW
+                         </div>
+                         
+                         <div class="relative z-10">
+                             <div class="flex items-center justify-between mb-3 sm:mb-4">
+                                 <h3 class="text-sm sm:text-base lg:text-lg font-semibold text-white" data-lang-key="cardChatbotTitle">AgriBot AI</h3>
+                                 <div class="flex items-center gap-2">
+                                     <svg class="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                     </svg>
+                                 </div>
+                             </div>
+                             <p class="text-xs sm:text-sm text-gray-300 mb-2 sm:mb-3" data-lang-key="cardChatbotSub">AI farming assistant with voice support</p>
+                             <div class="flex items-center gap-2 text-xs sm:text-sm text-green-300">
+                                 <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
+                                 </svg>
+                                 <span>Voice Assistant Available</span>
+                             </div>
+                         </div>
+                     </article>
                 </div>
                 
-                <section class="mt-8 sm:mt-12 glass-card p-4 sm:p-6">
-                     <h2 class="text-xl sm:text-2xl font-bold mb-4 text-center text-white" data-lang-key="satelliteTitle">Satellite Farm Overview</h2>
-                     <div class="flex flex-col lg:flex-row items-center gap-4 sm:gap-6">
-                        <div class="w-full lg:w-2/3 h-48 sm:h-64 bg-gray-800 rounded-lg">
-                            <img src="https://placehold.co/600x400/0f172a/6B8E23?text=Satellite+View" alt="Satellite view of a farm" class="w-full h-full object-cover rounded-lg">
-                        </div>
-                        <div id="satellite-analysis" class="w-full lg:w-1/3">
-                            </div>
+                                 <section class="mt-6 sm:mt-8 lg:mt-12 glass-card p-3 sm:p-4 lg:p-6">
+                      <h2 class="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 text-center text-white" data-lang-key="satelliteTitle">Satellite Farm Overview</h2>
+                      <div class="flex flex-col lg:flex-row items-center gap-3 sm:gap-4 lg:gap-6">
+                          <div class="w-full lg:w-2/3 h-40 sm:h-48 lg:h-64 bg-gray-800 rounded-lg">
+                              <img src="https://placehold.co/600x400/0f172a/6B8E23?text=Satellite+View" alt="Satellite view of a farm" class="w-full h-full object-cover rounded-lg">
+                          </div>
+                          <div id="satellite-analysis" class="w-full lg:w-1/3">
+                          </div>
+                      </div>
+                 </section>
+
+                                 <section class="mt-4 sm:mt-6 lg:mt-8 glass-card p-3 sm:p-4 lg:p-6">
+                     <h2 class="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 lg:mb-6 text-center text-white" data-lang-key="cropManagementTitle">Crop Management</h2>
+                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
+                         <article class="bg-gray-800/50 rounded-lg p-3 sm:p-4">
+                             <h3 class="text-sm sm:text-base lg:text-lg font-semibold text-white mb-2 sm:mb-3" data-lang-key="currentCropsTitle">Current Crops</h3>
+                             <div id="current-crops-list" class="space-y-2">
+                                 <div class="flex justify-between items-center">
+                                     <span class="text-gray-300 text-xs sm:text-sm lg:text-base">Wheat</span>
+                                     <span class="text-green-400 text-xs sm:text-sm">Growing</span>
+                                 </div>
+                                 <div class="flex justify-between items-center">
+                                     <span class="text-gray-300 text-xs sm:text-sm lg:text-base">Corn</span>
+                                     <span class="text-yellow-400 text-xs sm:text-sm">Ready Soon</span>
+                                 </div>
+                             </div>
+                         </article>
+                         
+                         <article class="bg-gray-800/50 rounded-lg p-3 sm:p-4">
+                             <h3 class="text-sm sm:text-base lg:text-lg font-semibold text-white mb-2 sm:mb-3" data-lang-key="soilHealthTitle">Soil Health</h3>
+                             <div class="space-y-2">
+                                 <div class="flex justify-between items-center">
+                                     <span class="text-gray-300 text-xs sm:text-sm lg:text-base">pH Level</span>
+                                     <span class="text-green-400 text-xs sm:text-sm lg:text-base">6.8</span>
+                                 </div>
+                                 <div class="flex justify-between items-center">
+                                     <span class="text-gray-300 text-xs sm:text-sm lg:text-base">Nitrogen</span>
+                                     <span class="text-yellow-400 text-xs sm:text-sm lg:text-base">Medium</span>
+                                 </div>
+                                 <div class="flex justify-between items-center">
+                                     <span class="text-gray-300 text-xs sm:text-sm lg:text-base">Moisture</span>
+                                     <span class="text-blue-400 text-xs sm:text-sm lg:text-base">Good</span>
+                                 </div>
+                             </div>
+                         </article>
+                         
+                         <article class="bg-gray-800/50 rounded-lg p-3 sm:p-4 sm:col-span-2 lg:col-span-1">
+                             <h3 class="text-sm sm:text-base lg:text-lg font-semibold text-white mb-2 sm:mb-3" data-lang-key="upcomingTasksTitle">Upcoming Tasks</h3>
+                             <div id="tasks-list" class="space-y-2">
+                                 <div class="flex justify-between items-center">
+                                     <span class="text-gray-300 text-xs sm:text-sm">Fertilize wheat</span>
+                                     <span class="text-yellow-400 text-xs">Tomorrow</span>
+                                 </div>
+                                 <div class="flex justify-between items-center">
+                                     <span class="text-gray-300 text-xs sm:text-sm">Harvest corn</span>
+                                     <span class="text-green-400 text-xs">Next week</span>
+                                 </div>
+                             </div>
+                         </article>
                      </div>
-                </section>
+                 </section>
 
-                <!-- Crop Management Section -->
-                <section class="mt-6 sm:mt-8 glass-card p-4 sm:p-6">
-                    <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center text-white" data-lang-key="cropManagementTitle">Crop Management</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
-                        <div class="bg-gray-800/50 rounded-lg p-3 sm:p-4">
-                            <h3 class="text-base sm:text-lg font-semibold text-white mb-2 sm:mb-3" data-lang-key="currentCropsTitle">Current Crops</h3>
-                            <div id="current-crops-list" class="space-y-2">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300 text-sm sm:text-base">Wheat</span>
-                                    <span class="text-green-400 text-xs sm:text-sm">Growing</span>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300 text-sm sm:text-base">Corn</span>
-                                    <span class="text-yellow-400 text-xs sm:text-sm">Ready Soon</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-gray-800/50 rounded-lg p-3 sm:p-4">
-                            <h3 class="text-base sm:text-lg font-semibold text-white mb-2 sm:mb-3" data-lang-key="soilHealthTitle">Soil Health</h3>
-                            <div class="space-y-2">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300 text-sm sm:text-base">pH Level</span>
-                                    <span class="text-green-400 text-sm sm:text-base">6.8</span>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300 text-sm sm:text-base">Nitrogen</span>
-                                    <span class="text-yellow-400 text-sm sm:text-base">Medium</span>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300 text-sm sm:text-base">Moisture</span>
-                                    <span class="text-blue-400 text-sm sm:text-base">Good</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-gray-800/50 rounded-lg p-3 sm:p-4 sm:col-span-2 lg:col-span-1">
-                            <h3 class="text-base sm:text-lg font-semibold text-white mb-2 sm:mb-3" data-lang-key="upcomingTasksTitle">Upcoming Tasks</h3>
-                            <div id="tasks-list" class="space-y-2">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300 text-xs sm:text-sm">Fertilize wheat</span>
-                                    <span class="text-yellow-400 text-xs">Tomorrow</span>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300 text-xs sm:text-sm">Harvest corn</span>
-                                    <span class="text-green-400 text-xs">Next week</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                                 <section class="mt-4 sm:mt-6 lg:mt-8 glass-card p-3 sm:p-4 lg:p-6">
+                     <h2 class="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 lg:mb-6 text-center text-white" data-lang-key="marketInsightsTitle">Market Insights</h2>
+                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
+                         <article class="bg-gray-800/50 rounded-lg p-3 sm:p-4">
+                             <h3 class="text-sm sm:text-base lg:text-lg font-semibold text-white mb-3 sm:mb-4" data-lang-key="priceTrendsTitle">Price Trends</h3>
+                             <div class="space-y-3">
+                                 <div class="flex justify-between items-center">
+                                     <span class="text-gray-300 text-xs sm:text-sm lg:text-base">Wheat</span>
+                                     <div class="flex items-center gap-2">
+                                         <span class="text-green-400 text-xs sm:text-sm lg:text-base">₹2,450/ton</span>
+                                         <span class="text-green-400 text-xs sm:text-sm">↗ +5%</span>
+                                     </div>
+                                 </div>
+                                 <div class="flex justify-between items-center">
+                                     <span class="text-gray-300 text-xs sm:text-sm lg:text-base">Corn</span>
+                                     <div class="flex items-center gap-2">
+                                         <span class="text-red-400 text-xs sm:text-sm lg:text-base">₹1,850/ton</span>
+                                         <span class="text-red-400 text-xs sm:text-sm">↘ -2%</span>
+                                     </div>
+                                 </div>
+                             </div>
+                         </article>
+                         
+                         <article class="bg-gray-800/50 rounded-lg p-3 sm:p-4">
+                             <h3 class="text-sm sm:text-base lg:text-lg font-semibold text-white mb-3 sm:mb-4" data-lang-key="localDemandTitle">Local Demand</h3>
+                             <div class="space-y-3">
+                                 <div class="flex justify-between items-center">
+                                     <span class="text-gray-300 text-xs sm:text-sm lg:text-base">Organic Wheat</span>
+                                     <span class="text-green-400 text-xs sm:text-sm lg:text-base">High</span>
+                                 </div>
+                                 <div class="flex justify-between items-center">
+                                     <span class="text-gray-300 text-xs sm:text-sm lg:text-base">Sweet Corn</span>
+                                     <span class="text-yellow-400 text-xs sm:text-sm lg:text-base">Medium</span>
+                                 </div>
+                             </div>
+                         </article>
+                     </div>
+                 </section>
 
-                <!-- Market Insights Section -->
-                <section class="mt-6 sm:mt-8 glass-card p-4 sm:p-6">
-                    <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center text-white" data-lang-key="marketInsightsTitle">Market Insights</h2>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-                        <div class="bg-gray-800/50 rounded-lg p-3 sm:p-4">
-                            <h3 class="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4" data-lang-key="priceTrendsTitle">Price Trends</h3>
-                            <div class="space-y-3">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300 text-sm sm:text-base">Wheat</span>
-                                    <div class="flex items-center gap-2">
-                                        <span class="text-green-400 text-sm sm:text-base">₹2,450/ton</span>
-                                        <span class="text-green-400 text-xs sm:text-sm">↗ +5%</span>
-                                    </div>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300 text-sm sm:text-base">Corn</span>
-                                    <div class="flex items-center gap-2">
-                                        <span class="text-red-400 text-sm sm:text-base">₹1,850/ton</span>
-                                        <span class="text-red-400 text-xs sm:text-sm">↘ -2%</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-gray-800/50 rounded-lg p-3 sm:p-4">
-                            <h3 class="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4" data-lang-key="localDemandTitle">Local Demand</h3>
-                            <div class="space-y-3">
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300 text-sm sm:text-base">Organic Wheat</span>
-                                    <span class="text-green-400 text-sm sm:text-base">High</span>
-                                </div>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-gray-300 text-sm sm:text-base">Sweet Corn</span>
-                                    <span class="text-yellow-400 text-sm sm:text-base">Medium</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Recent Activities Section -->
-                <section class="mt-6 sm:mt-8 glass-card p-4 sm:p-6">
-                    <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center text-white" data-lang-key="recentActivitiesTitle">Recent Activities</h2>
-                    <div class="space-y-3 sm:space-y-4">
-                        <div class="flex items-center gap-3 sm:gap-4 p-3 bg-gray-800/30 rounded-lg">
-                            <div class="w-2 h-2 sm:w-3 sm:h-3 bg-green-400 rounded-full flex-shrink-0"></div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-white text-xs sm:text-sm">Irrigation system activated for wheat field</p>
-                                <p class="text-gray-400 text-xs">2 hours ago</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3 sm:gap-4 p-3 bg-gray-800/30 rounded-lg">
-                            <div class="w-2 h-2 sm:w-3 sm:h-3 bg-blue-400 rounded-full flex-shrink-0"></div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-white text-xs sm:text-sm">Weather alert: Light rain expected tomorrow</p>
-                                <p class="text-gray-400 text-xs">4 hours ago</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3 sm:gap-4 p-3 bg-gray-800/30 rounded-lg">
-                            <div class="w-2 h-2 sm:w-3 sm:h-3 bg-yellow-400 rounded-full flex-shrink-0"></div>
-                            <div class="flex-1 min-w-0">
-                                <p class="text-white text-xs sm:text-sm">Soil analysis completed for corn field</p>
-                                <p class="text-gray-400 text-xs">1 day ago</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                                 <section class="mt-4 sm:mt-6 lg:mt-8 glass-card p-3 sm:p-4 lg:p-6">
+                     <h2 class="text-lg sm:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 lg:mb-6 text-center text-white" data-lang-key="recentActivitiesTitle">Recent Activities</h2>
+                     <div class="space-y-3 sm:space-y-4">
+                         <div class="flex items-center gap-2 sm:gap-3 lg:gap-4 p-2 sm:p-3 bg-gray-800/30 rounded-lg">
+                             <div class="w-2 h-2 sm:w-3 sm:h-3 bg-green-400 rounded-full flex-shrink-0"></div>
+                             <div class="flex-1 min-w-0">
+                                 <p class="text-white text-xs sm:text-sm">Irrigation system activated for wheat field</p>
+                                 <p class="text-gray-400 text-xs">2 hours ago</p>
+                             </div>
+                         </div>
+                         <div class="flex items-center gap-2 sm:gap-3 lg:gap-4 p-2 sm:p-3 bg-gray-800/30 rounded-lg">
+                             <div class="w-2 h-2 sm:w-3 sm:h-3 bg-blue-400 rounded-full flex-shrink-0"></div>
+                             <div class="flex-1 min-w-0">
+                                 <p class="text-white text-xs sm:text-sm">Weather alert: Light rain expected tomorrow</p>
+                                 <p class="text-gray-400 text-xs">4 hours ago</p>
+                             </div>
+                         </div>
+                         <div class="flex items-center gap-2 sm:gap-3 lg:gap-4 p-2 sm:p-3 bg-gray-800/30 rounded-lg">
+                             <div class="w-2 h-2 sm:w-3 sm:h-3 bg-yellow-400 rounded-full flex-shrink-0"></div>
+                             <div class="flex-1 min-w-0">
+                                 <p class="text-white text-xs sm:text-sm">Soil analysis completed for corn field</p>
+                                 <p class="text-gray-400 text-xs">1 day ago</p>
+                             </div>
+                         </div>
+                     </div>
+                 </section>
             </div>
-        </div>
+        </main>
     </div>
 
-    <!-- Footer Section -->
-    <footer class="mt-24 glass-card border-t border-white/10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- License Information -->
-                <div>
-                    <h3 class="text-lg font-semibold text-white mb-4">License & Legal</h3>
-                    <div class="space-y-2 text-sm text-gray-300">
+         <footer class="mt-16 sm:mt-20 lg:mt-24 glass-card border-t border-white/10">
+                  <div class="max-w-full mx-auto px-3 sm:px-4 lg:px-8 py-8 sm:py-10 lg:py-12">
+             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+                                 <div>
+                     <h3 class="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">License & Legal</h3>
+                     <div class="space-y-2 text-xs sm:text-sm text-gray-300">
                         <p>© 2024 AgriLocal. All rights reserved.</p>
                         <p>This software is licensed under the MIT License.</p>
                         <p>For commercial use, please contact us.</p>
@@ -269,10 +331,9 @@
                     </div>
                 </div>
 
-                <!-- Contact Information -->
-                <div>
-                    <h3 class="text-lg font-semibold text-white mb-4">Contact Us</h3>
-                    <div class="space-y-3 text-sm text-gray-300">
+                                 <div>
+                     <h3 class="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">Contact Us</h3>
+                     <div class="space-y-3 text-xs sm:text-sm text-gray-300">
                         <div class="flex items-center gap-2">
                             <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
@@ -295,53 +356,51 @@
                     </div>
                 </div>
 
-                <!-- Quick Links -->
-                <div>
-                    <h3 class="text-lg font-semibold text-white mb-4">Quick Links</h3>
-                    <div class="space-y-2 text-sm text-gray-300">
-                        <a href="index.html" class="block text-green-400 hover:text-green-300 transition-colors">Home</a>
-                        <a href="index.html#about-us" class="block text-green-400 hover:text-green-300 transition-colors">About Us</a>
-                        <a href="index.html#features" class="block text-green-400 hover:text-green-300 transition-colors">Features</a>
-                        <a href="blogs.html" class="block text-green-400 hover:text-green-300 transition-colors">Blogs</a>
+                                 <div>
+                     <h3 class="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">Quick Links</h3>
+                     <div class="space-y-2 text-xs sm:text-sm text-gray-300">
+                                                 <a href="index.html" class="block text-green-400 hover:text-green-300 transition-colors">Home</a>
+                         <a href="dashboard.html" class="block text-green-400 hover:text-green-300 transition-colors">Dashboard</a>
+                         <a href="blogs.html" class="block text-green-400 hover:text-green-300 transition-colors">Blogs</a>
+                         <a href="farmers-directory.html" class="block text-green-400 hover:text-green-300 transition-colors" data-lang-key="farmersDirectory">Farmers Directory</a>
                         <a href="privacy-policy.html" class="block text-green-400 hover:text-green-300 transition-colors">Privacy Policy</a>
                         <a href="terms-of-service.html" class="block text-green-400 hover:text-green-300 transition-colors">Terms of Service</a>
                     </div>
                 </div>
 
-                <!-- Feedback Form -->
-                <div>
-                    <h3 class="text-lg font-semibold text-white mb-4">Send Feedback</h3>
-                    <form id="feedback-form" class="space-y-3">
-                        <input type="text" id="feedback-name" placeholder="Your Name" class="w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 text-sm">
-                        <input type="email" id="feedback-email" placeholder="Your Email" class="w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 text-sm">
-                        <textarea id="feedback-message" placeholder="Your feedback or suggestions..." rows="3" class="w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 text-sm resize-none"></textarea>
-                        <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-sm">
-                            Send Feedback
-                        </button>
-                    </form>
-                </div>
+                                 <div>
+                     <h3 class="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">Send Feedback</h3>
+                     <form id="feedback-form" class="space-y-3">
+                         <input type="text" id="feedback-name" placeholder="Your Name" class="w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 text-xs sm:text-sm">
+                         <input type="email" id="feedback-email" placeholder="Your Email" class="w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 text-xs sm:text-sm">
+                         <textarea id="feedback-message" placeholder="Your feedback or suggestions..." rows="3" class="w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 text-xs sm:text-sm resize-none"></textarea>
+                         <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-xs sm:text-sm">
+                             Send Feedback
+                         </button>
+                     </form>
+                 </div>
             </div>
             
-            <div class="mt-8 pt-8 border-t border-white/10 text-center">
-                <p class="text-sm text-gray-400">
-                    Made with ❤️ for Indian farmers. Empowering agriculture through technology.
-                </p>
-            </div>
+                         <div class="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-white/10 text-center">
+                 <p class="text-xs sm:text-sm text-gray-400">
+                     Made with ❤️ for Indian farmers. Empowering agriculture through technology.
+                 </p>
+             </div>
         </div>
     </footer>
 
-    <div id="modal" class="modal fixed inset-0 z-[101] flex items-center justify-center p-4 hidden opacity-0">
-        <div class="fixed inset-0 bg-black/50" id="modal-backdrop"></div>
-        <div id="modal-content" class="modal-content w-full max-w-2xl transform scale-95 z-10">
-            <div class="flex justify-between items-center p-4 sm:p-5 border-b border-white/10">
-                <h3 id="modal-title" class="text-xl sm:text-2xl font-bold text-white">Modal Title</h3>
-                <button id="modal-close" class="text-gray-400 hover:text-white">
-                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-            <div id="modal-body" class="p-4 sm:p-6 max-h-[70vh] overflow-y-auto"></div>
-        </div>
-    </div>
+         <div id="modal" class="modal fixed inset-0 z-[101] flex items-center justify-center p-3 sm:p-4 hidden opacity-0">
+         <div class="fixed inset-0 bg-black/50" id="modal-backdrop"></div>
+         <div id="modal-content" class="modal-content w-full max-w-sm sm:max-w-md lg:max-w-2xl transform scale-95 z-10">
+             <div class="flex justify-between items-center p-3 sm:p-4 lg:p-5 border-b border-white/10">
+                 <h3 id="modal-title" class="text-lg sm:text-xl lg:text-2xl font-bold text-white">Modal Title</h3>
+                 <button id="modal-close" class="text-gray-400 hover:text-white">
+                     <svg class="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                 </button>
+             </div>
+             <div id="modal-body" class="p-3 sm:p-4 lg:p-6 max-h-[60vh] sm:max-h-[70vh] overflow-y-auto"></div>
+         </div>
+     </div>
     
     <div id="language-switcher" class="lang-btn-container">
         <button id="lang-en" class="lang-btn active">English</button>
@@ -350,4 +409,4 @@
 
     <script src="script.js"></script>
 </body>
-</html>
+</html> 
