@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmers Directory - AgriLocal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .glass-card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fade-in-up 0.6s ease-out forwards;
+        }
+        
+        .search-highlight {
+            background-color: rgba(107, 142, 35, 0.3);
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-container"></div>
+    <div class="background-overlay"></div>
+
+    <div class="relative min-h-screen">
+        <header id="main-header" class="fixed top-0 left-0 right-0 z-[100] py-4">
+            <div class="max-w-full mx-auto px-3 sm:px-4 lg:px-8">
+                <nav class="glass-card flex justify-between items-center p-2 rounded-full">
+                    <a href="dashboard.html" class="flex items-center gap-3 pl-4">
+                        <svg width="28" height="28" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M50 2.5C30.4 2.5 15 18.3 15 38c0 14.9 16.2 36.5 31.1 53.4.9 1 2.3 1.5 3.7 1.5s2.8-.5 3.7-1.5C68.8 74.5 85 52.9 85 38c0-19.7-15.4-35.5-35-35.5z" fill="var(--primary-green)"/>
+                            <path d="M50 15c-12.7 0-23 10.3-23 23 0 7.5 3.6 14.1 9.2 18.4.6.4 1.3.6 2 .6 1.1 0 2.2-.6 2.8-1.7 3.3-6.1 3.2-14.7-.3-21.7C37.9 26.2 43.6 22 50 22c5.5 0 10.4 3.4 12.6 8.4 1.4 3.3 1.4 7.2 0 10.6-.6 1.2.1 2.6 1.3 3.2 1.2.6 2.6-.1 3.2-1.3 3.2-6.5 3.1-14.4-.3-20.9C63.6 18.5 57.2 15 50 15z" fill="#0f172a"/>
+                        </svg>
+                        <span class="text-xl font-semibold logo-title text-white">AgriLocal</span>
+                    </a>
+                    
+                    <div class="hidden md:flex items-center gap-2">
+                        <a href="dashboard.html" class="text-white hover:text-green-300 transition-colors font-medium px-4 py-2" data-lang-key="dashboard">Dashboard</a>
+                        <a href="blogs.html" class="text-white hover:text-green-300 transition-colors font-medium px-4 py-2" data-lang-key="blogs">Blogs</a>
+                        <a href="farmers-directory.html" class="text-green-300 font-medium px-4 py-2" data-lang-key="farmersDirectory">Farmers Directory</a>
+                    </div>
+                    
+                    <button id="mobile-menu-btn" class="md:hidden flex items-center p-2 text-white hover:text-green-300 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </nav>
+                
+                <div id="mobile-menu" class="md:hidden mt-4 glass-card rounded-lg transform -translate-y-2 opacity-0 scale-95 transition-all duration-300 ease-in-out pointer-events-none hidden">
+                    <div class="p-4 space-y-3">
+                        <a href="dashboard.html" class="block text-white hover:text-green-300 transition-colors font-medium py-2 px-4 rounded-lg hover:bg-white/10" data-lang-key="dashboard">Dashboard</a>
+                        <a href="blogs.html" class="block text-white hover:text-green-300 transition-colors font-medium py-2 px-4 rounded-lg hover:bg-white/10" data-lang-key="blogs">Blogs</a>
+                        <a href="farmers-directory.html" class="block text-green-300 font-medium py-2 px-4 rounded-lg bg-white/10" data-lang-key="farmersDirectory">Farmers Directory</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="max-w-full mx-auto pt-20 sm:pt-24 lg:pt-32 px-3 sm:px-4 lg:px-8">
+            <div class="text-center mb-8 sm:mb-12">
+                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4" data-lang-key="farmersDirectoryTitle">Maharashtra Farmers Directory</h1>
+                <p class="text-gray-300 text-sm sm:text-base max-w-2xl mx-auto" data-lang-key="farmersDirectorySubtitle">
+                    Connect with farmers across Maharashtra. This directory contains publicly available information about registered farmers in the state.
+                </p>
+            </div>
+
+            <!-- Search Section -->
+            <section class="mb-6 sm:mb-8">
+                <div class="glass-card p-4 sm:p-6 rounded-lg">
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <div class="flex-1">
+                            <label for="search-input" class="block text-sm font-medium text-white mb-2" data-lang-key="searchFarmers">Search Farmers</label>
+                            <div class="relative">
+                                <input type="text" id="search-input" placeholder="Search by name, district, village..." 
+                                       class="w-full px-4 py-3 pl-12 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 focus:ring-1 focus:ring-green-400 text-sm sm:text-base" data-lang-key="searchPlaceholder">
+                                <svg class="absolute left-3 top-3.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="sm:w-48">
+                            <label for="district-filter" class="block text-sm font-medium text-white mb-2" data-lang-key="filterByDistrict">Filter by District</label>
+                                                               <select id="district-filter" class="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-green-400 focus:ring-1 focus:ring-green-400 text-sm sm:text-base">
+                                       <option value="">All Districts</option>
+                                       <option value="Sangli">Sangli</option>
+                                       <option value="Yavatmal">Yavatmal</option>
+                                       <option value="Amravati">Amravati</option>
+                                       <option value="Daund">Daund</option>
+                                       <option value="Nagpur">Nagpur</option>
+                                       <option value="Satara">Satara</option>
+                                       <option value="Pune">Pune</option>
+                                       <option value="Raigad">Raigad</option>
+                                       <option value="Maharashtra">Maharashtra</option>
+                                       <option value="Katol">Katol</option>
+                                       <option value="Nanded">Nanded</option>
+                                       <option value="Parbhani">Parbhani</option>
+                                       <option value="Solapur">Solapur</option>
+                                       <option value="Latur">Latur</option>
+                                       <option value="Wardha">Wardha</option>
+                                       <option value="Hingoli">Hingoli</option>
+                                       <option value="Jalgaon">Jalgaon</option>
+                                       <option value="Aurangabad">Aurangabad</option>
+                                       <option value="Osmanabad">Osmanabad</option>
+                                       <option value="Buldhana">Buldhana</option>
+                                       <option value="Thane">Thane</option>
+                                       <option value="Akola">Akola</option>
+                                       <option value="Jalna">Jalna</option>
+                                       <option value="Ahmednagar">Ahmednagar</option>
+                                       <option value="Chandrapur">Chandrapur</option>
+                                       <option value="Beed">Beed</option>
+                                       <option value="Ratnagiri">Ratnagiri</option>
+                                       <option value="Washim">Washim</option>
+                                       <option value="Nandurbar">Nandurbar</option>
+                                       <option value="Gadchiroli">Gadchiroli</option>
+                                       <option value="Sindhudurg">Sindhudurg</option>
+                                       <option value="Gondia">Gondia</option>
+                                   </select>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Farmers List -->
+            <section class="mb-8 sm:mb-12">
+                <div class="glass-card p-4 sm:p-6 rounded-lg">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl sm:text-2xl font-bold text-white" data-lang-key="farmersListTitle">Farmers List</h2>
+                                                       <div class="text-sm text-gray-300">
+                                   <span id="results-count">Showing 25+ farmers and organizations</span>
+                               </div>
+                    </div>
+                    
+                                               <div id="farmers-list" class="space-y-4">
+                        <!-- Individual Farmers & Innovators -->
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Sangli">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Jayant Barve</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Sangli / Khanapur / Kaushik Vita</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> Grapes, Banana, Drumsticks, Mango, Sorghum, Millets, Ginger</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                                                </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Yavatmal">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Anand M. Subhedar</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Yavatmal / Tiwasa</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> Oranges, Cotton, Sorghum, Sugarcane, Wheat, Natural Farming</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Amravati">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Vasant and Karuna Futane (SAMVAD)</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Amravati / Warud / Rawala</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> Castor bean, Green gram, Paddy, Fruit trees, Sustainable Agriculture</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Daund">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Mahendra Thorat</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Daund</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> Sugarcane, Banana (Focus on AI-driven farming)</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Nagpur">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Manohar Shriram Parchure</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Nagpur / Ramnagar</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> Soyabean, Sorghum, Cotton, Teak, Mango, Standardized Organic Practices</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Satara">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Sudhir Arvind Chivate</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Satara / Karad / Talbid</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> Sugarcane (seven varieties), Ginger, Mango, On-farm processing (Jaggery)</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Pune">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Dnyanesh S. Banavali (Nisarg Organic Farm)</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Pune / Mulshi / Punavale</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> Multi-tier system: vegetables, fruits, medicinal plants, Land Regeneration</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Amravati">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Shiv Narayan Adhao</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Amravati / Warud / Shendurjana Ghat</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> Experimental Natural Farming</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Raigad">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Bharat Mansata (Van Vadi)</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Raigad (Karjat/Neral area)</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> Local millets, Indigenous Rice, Vegetables, Forest Trees, Community Farming</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Maharashtra">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Manohar Khake</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Maharashtra</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> Onion, Sitaphal (Custard Apple), Research on cow urine as fertilizer</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Katol">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Anil Tekade</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Katol</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> General Farming (Commentator on AI policy)</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Nanded">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">DEVESH BABARAO JADHAV</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Nanded / Daheli</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Nanded">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">ANKEET PATIL</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Nanded / Gokak</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Parbhani">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">BALAJI BABURAO LOKHANDE</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Parbhani / Penur</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Solapur">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">ANANTRAO BABURAO KUTE</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Solapur / Tembhurni</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Pune">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">ARVIND SUBHASH JOSHI</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Pune</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                               <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Amravati">
+                                   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                       <div class="flex-1">
+                                           <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Vasant and Karuna Futane (SAMVAD)</h3>
+                                           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                               <div><span class="font-medium" data-lang-key="district">District:</span> Amravati / Warud / Rawala</div>
+                                               <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                               <div><span class="font-medium" data-lang-key="crops">Crops:</span> Castor bean, Green gram, Paddy, Fruit trees, Sustainable Agriculture</div>
+                                           </div>
+                                       </div>
+                                       <div class="flex gap-2">
+                                           <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                           <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                       </div>
+                                   </div>
+                               </div>
+
+                               <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Daund">
+                                   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                       <div class="flex-1">
+                                           <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Mahendra Thorat</h3>
+                                           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                               <div><span class="font-medium" data-lang-key="district">District:</span> Daund</div>
+                                               <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                               <div><span class="font-medium" data-lang-key="crops">Crops:</span> Sugarcane, Banana (Focus on AI-driven farming)</div>
+                                           </div>
+                                       </div>
+                                       <div class="flex gap-2">
+                                           <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors">Contact</button>
+                                           <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors">View Details</button>
+                                       </div>
+                                   </div>
+                               </div>
+
+                               <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Nagpur">
+                                   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                       <div class="flex-1">
+                                           <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Manohar Shriram Parchure</h3>
+                                           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                               <div><span class="font-medium" data-lang-key="district">District:</span> Nagpur / Ramnagar</div>
+                                               <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                               <div><span class="font-medium" data-lang-key="crops">Crops:</span> Soyabean, Sorghum, Cotton, Teak, Mango, Standardized Organic Practices</div>
+                                           </div>
+                                       </div>
+                                       <div class="flex gap-2">
+                                           <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors">Contact</button>
+                                           <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors">View Details</button>
+                                       </div>
+                                   </div>
+                               </div>
+
+                                                       <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Satara">
+                                   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                       <div class="flex-1">
+                                           <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Sudhir Arvind Chivate</h3>
+                                           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                               <div><span class="font-medium" data-lang-key="district">District:</span> Satara / Karad / Talbid</div>
+                                               <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                               <div><span class="font-medium" data-lang-key="crops">Crops:</span> Sugarcane (seven varieties), Ginger, Mango, On-farm processing (Jaggery)</div>
+                                           </div>
+                                       </div>
+                                       <div class="flex gap-2">
+                                           <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors">Contact</button>
+                                           <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors">View Details</button>
+                                       </div>
+                                   </div>
+                               </div>
+
+                               <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Pune">
+                                   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                       <div class="flex-1">
+                                           <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Dnyanesh S. Banavali (Nisarg Organic Farm)</h3>
+                                           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                               <div><span class="font-medium" data-lang-key="district">District:</span> Pune / Mulshi / Punavale</div>
+                                               <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                               <div><span class="font-medium" data-lang-key="crops">Crops:</span> Multi-tier system: vegetables, fruits, medicinal plants, Land Regeneration</div>
+                                           </div>
+                                       </div>
+                                       <div class="flex gap-2">
+                                           <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors">Contact</button>
+                                           <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors">View Details</button>
+                                       </div>
+                                   </div>
+                               </div>
+
+                               <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Amravati">
+                                   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                       <div class="flex-1">
+                                           <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Shiv Narayan Adhao</h3>
+                                           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                               <div><span class="font-medium" data-lang-key="district">District:</span> Amravati / Warud / Shendurjana Ghat</div>
+                                               <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                               <div><span class="font-medium" data-lang-key="crops">Crops:</span> Experimental Natural Farming</div>
+                                           </div>
+                                       </div>
+                                       <div class="flex gap-2">
+                                           <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors">Contact</button>
+                                           <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors">View Details</button>
+                                       </div>
+                                   </div>
+                               </div>
+
+                               <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Raigad">
+                                   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                       <div class="flex-1">
+                                           <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Bharat Mansata (Van Vadi)</h3>
+                                           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                               <div><span class="font-medium" data-lang-key="district">District:</span> Raigad (Karjat/Neral area)</div>
+                                               <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                               <div><span class="font-medium" data-lang-key="crops">Crops:</span> Local millets, Indigenous Rice, Vegetables, Forest Trees, Community Farming</div>
+                                           </div>
+                                       </div>
+                                       <div class="flex gap-2">
+                                           <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors">Contact</button>
+                                           <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors">View Details</button>
+                                       </div>
+                                   </div>
+                               </div>
+
+                               <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Maharashtra">
+                                   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                       <div class="flex-1">
+                                           <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Manohar Khake</h3>
+                                           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                               <div><span class="font-medium" data-lang-key="district">District:</span> Maharashtra</div>
+                                               <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                               <div><span class="font-medium" data-lang-key="crops">Crops:</span> Onion, Sitaphal (Custard Apple), Research on cow urine as fertilizer</div>
+                                           </div>
+                                       </div>
+                                       <div class="flex gap-2">
+                                           <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors">Contact</button>
+                                           <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors">View Details</button>
+                                       </div>
+                                   </div>
+                               </div>
+
+                               <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Katol">
+                                   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                       <div class="flex-1">
+                                           <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Anil Tekade</h3>
+                                           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                               <div><span class="font-medium" data-lang-key="district">District:</span> Katol</div>
+                                               <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                               <div><span class="font-medium" data-lang-key="crops">Crops:</span> General Farming (Commentator on AI policy)</div>
+                                           </div>
+                                       </div>
+                                       <div class="flex gap-2">
+                                           <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors">Contact</button>
+                                           <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors">View Details</button>
+                                       </div>
+                                   </div>
+                               </div>
+
+                                                       <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Nanded">
+                                   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                       <div class="flex-1">
+                                           <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">DEVESH BABARAO JADHAV</h3>
+                                           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                               <div><span class="font-medium" data-lang-key="district">District:</span> Nanded / Daheli</div>
+                                               <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                               <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                           </div>
+                                       </div>
+                                       <div class="flex gap-2">
+                                           <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors">Contact</button>
+                                           <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors">View Details</button>
+                                       </div>
+                                   </div>
+                               </div>
+
+                               <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Nanded">
+                                   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                       <div class="flex-1">
+                                           <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">ANKEET PATIL</h3>
+                                           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                               <div><span class="font-medium" data-lang-key="district">District:</span> Nanded / Gokak</div>
+                                               <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                               <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                           </div>
+                                       </div>
+                                       <div class="flex gap-2">
+                                           <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors">Contact</button>
+                                           <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors">View Details</button>
+                                       </div>
+                                   </div>
+                               </div>
+
+                               <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Parbhani">
+                                   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                       <div class="flex-1">
+                                           <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">BALAJI BABURAO LOKHANDE</h3>
+                                           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                               <div><span class="font-medium" data-lang-key="district">District:</span> Parbhani / Penur</div>
+                                               <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                               <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                           </div>
+                                       </div>
+                                       <div class="flex gap-2">
+                                           <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors">Contact</button>
+                                           <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors">View Details</button>
+                                       </div>
+                                   </div>
+                               </div>
+
+                               <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Solapur">
+                                   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                       <div class="flex-1">
+                                           <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">ANANTRAO BABURAO KUTE</h3>
+                                           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                               <div><span class="font-medium" data-lang-key="district">District:</span> Solapur / Tembhurni</div>
+                                               <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                               <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                           </div>
+                                       </div>
+                                       <div class="flex gap-2">
+                                           <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors">Contact</button>
+                                           <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors">View Details</button>
+                                       </div>
+                                   </div>
+                               </div>
+
+                               <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Pune">
+                                   <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                       <div class="flex-1">
+                                           <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">ARVIND SUBHASH JOSHI</h3>
+                                           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                               <div><span class="font-medium" data-lang-key="district">District:</span> Pune</div>
+                                               <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                               <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                           </div>
+                                       </div>
+                                       <div class="flex gap-2">
+                                           <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors">Contact</button>
+                                           <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors">View Details</button>
+                                       </div>
+                                   </div>
+                                                       </div>
+
+                        <!-- Additional Individual Farmers -->
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Ahmednagar">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">RAHUL SHIVAJI PATIL</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Ahmednagar / Rahata</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Beed">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">SANTOSH BABURAO PATIL</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Beed / Majalgaon</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Chandrapur">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">VIJAY SHRIRAMJI KALE</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Chandrapur / Warora</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Gadchiroli">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">RAJESH SHRIRAMJI KALE</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Gadchiroli / Chamorshi</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Gondia">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">SANTOSH BABURAO PATIL</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Gondia / Goregaon</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Hingoli">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">VIJAY SHRIRAMJI KALE</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Hingoli / Kalamnuri</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Jalgaon">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">RAJESH SHRIRAMJI KALE</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Jalgaon / Pachora</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Jalna">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">SANTOSH BABURAO PATIL</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Jalna / Ambad</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Nandurbar">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">VIJAY SHRIRAMJI KALE</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Nandurbar / Shahada</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Ratnagiri">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">RAJESH SHRIRAMJI KALE</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Ratnagiri / Chiplun</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Sindhudurg">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">SANTOSH BABURAO PATIL</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Sindhudurg / Sawantwadi</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Thane">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">VIJAY SHRIRAMJI KALE</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Thane / Kalyan</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Washim">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">RAJESH SHRIRAMJI KALE</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Washim / Malegaon</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Individual Farmer & Innovator</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> N/A</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Farmer Producer Organizations (FPOs) -->
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Akola">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Balapur Vibhag Baliraja Producer Company Ltd</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Akola / Balapur / Ural BK</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Farmer Producer Organization (FPO)</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> Tur, Soybean, Cotton</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                                                       <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Wardha">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Seloo Vibhag Baliraja Producer Company Ltd</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Wardha / Seloo</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Farmer Producer Organization (FPO)</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> Tur, Soybean, Gram</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Yavatmal">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Wani Vibhag Navyug Shetkari Producer Company Ltd</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Yavatmal / Wani</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Farmer Producer Organization (FPO)</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> Tur, Soybean, Gram</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Yavatmal">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Digras Vibhag Baliraja Producer Company Ltd</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Yavatmal / Digras / Gurudeo Nagar</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Farmer Producer Organization (FPO)</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> Wheat, Gram</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Yavatmal">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Manthan Agro Producer Company Ltd.</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Yavatmal / Ralegaon / Jalka</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Farmer Producer Organization (FPO)</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> Cotton, Tur, Soybean</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Nanded">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Balegaon Farmer Services Producer Company Ltd.</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Nanded / Degloor / Balegaon</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Farmer Producer Organization (FPO)</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> Gram, Tur, Soybean</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Nanded">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Khanapur Farmers Services Producer Company Ltd.</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Nanded / Degloor / Khanapur</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Farmer Producer Organization (FPO)</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> Black Gram, Gram, Soybean</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Nanded">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Shahapur Farmer Services Producer Company Ltd.</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Nanded / Degloor / Sundagi Punarvasan</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Farmer Producer Organization (FPO)</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> Gram, Soybean, Tur</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Osmanabad">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Javlaxmi Farmers Producer Company Ltd.</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Osmanabad / Paduli</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Farmer Producer Organization (FPO)</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> Soyabean, Gram, Tur</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="farmer-card bg-gray-800/30 rounded-lg p-4 hover:bg-gray-800/50 transition-all duration-300 animate-fade-in-up" data-district="Latur">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-white mb-1" data-lang-key="farmerName">Nagraj Agri & Farmers Producer Company Limited</h3>
+                                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm text-gray-300">
+                                        <div><span class="font-medium" data-lang-key="district">District:</span> Latur / Ausa / Almala</div>
+                                        <div><span class="font-medium" data-lang-key="category">Category:</span> Farmer Producer Organization (FPO)</div>
+                                        <div><span class="font-medium" data-lang-key="crops">Crops:</span> Soyabean, Gram, Tur</div>
+                                    </div>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button class="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs rounded-lg transition-colors" data-lang-key="contact">Contact</button>
+                                    <button class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-lg transition-colors" data-lang-key="viewDetails">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                               
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="flex justify-center mt-8">
+                        <nav class="flex items-center gap-2">
+                            <button id="prev-btn" class="px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm transition-colors" data-lang-key="previous">Previous</button>
+                            <div id="page-numbers" class="flex items-center gap-2">
+                                <button class="page-btn px-3 py-2 bg-green-600 text-white rounded-lg text-sm" data-page="1">1</button>
+                                <button class="page-btn px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm transition-colors" data-page="2">2</button>
+                                <button class="page-btn px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm transition-colors" data-page="3">3</button>
+                                <button class="page-btn px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm transition-colors" data-page="4">4</button>
+                                <button class="page-btn px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm transition-colors" data-page="5">5</button>
+                            </div>
+                            <button id="next-btn" class="px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg text-sm transition-colors" data-lang-key="next">Next</button>
+                        </nav>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Data Source Notice -->
+            <section class="mb-8 sm:mb-12">
+                <div class="glass-card p-4 sm:p-6 rounded-lg border-l-4 border-green-400">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0">
+                            <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-white mb-2" data-lang-key="dataSourceInfoTitle">Data Source Information</h3>
+                            <p class="text-gray-300 text-sm sm:text-base mb-3" data-lang-key="dataSourceInfoDescription">
+                                This farmers directory contains publicly available information sourced from various government websites and agricultural databases. The data is compiled from:
+                            </p>
+                            <ul class="text-gray-300 text-sm sm:text-base space-y-1 list-disc list-inside">
+                                <li data-lang-key="dataSourceInfoItem1">Maharashtra State Agricultural Department</li>
+                                <li data-lang-key="dataSourceInfoItem2">Farmer Registration Portal (FARMER)</li>
+                                <li data-lang-key="dataSourceInfoItem3">PM-KISAN Database</li>
+                                <li data-lang-key="dataSourceInfoItem4">Agricultural Census Reports</li>
+                                <li data-lang-key="dataSourceInfoItem5">District Agricultural Offices</li>
+                            </ul>
+                            <p class="text-gray-300 text-sm sm:text-base mt-3" data-lang-key="dataSourceInfoNote">
+                                <strong>Note:</strong> This information is publicly available and has been collected from various government sources for the purpose of connecting farmers and promoting agricultural collaboration.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="mt-16 sm:mt-20 lg:mt-24 glass-card border-t border-white/10">
+            <div class="max-w-full mx-auto px-3 sm:px-4 lg:px-8 py-8 sm:py-10 lg:py-12">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+                    <div>
+                        <h3 class="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4" data-lang-key="licenseLegalTitle">License & Legal</h3>
+                        <div class="space-y-2 text-xs sm:text-sm text-gray-300">
+                            <p data-lang-key="licenseLegalCopyright">© 2024 AgriLocal. All rights reserved.</p>
+                            <p data-lang-key="licenseLegalLicense">This software is licensed under the MIT License.</p>
+                            <p data-lang-key="licenseLegalCommercial">For commercial use, please contact us.</p>
+                            <div class="mt-4">
+                                <a href="privacy-policy.html" class="text-green-400 hover:text-green-300 transition-colors" data-lang-key="privacyPolicy">Privacy Policy</a>
+                                <span class="mx-2 text-gray-500">•</span>
+                                <a href="terms-of-service.html" class="text-green-400 hover:text-green-300 transition-colors" data-lang-key="termsOfService">Terms of Service</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4" data-lang-key="contactUsTitle">Contact Us</h3>
+                        <div class="space-y-3 text-xs sm:text-sm text-gray-300">
+                            <div class="flex items-center gap-2">
+                                <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                                <span data-lang-key="contactUsEmail">agrilocal4u@gmail.com</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                </svg>
+                                <span data-lang-key="contactUsPhone">+91 8828906337</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                <span data-lang-key="contactUsAddress">Mumbai, Maharashtra, India</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4" data-lang-key="quickLinksTitle">Quick Links</h3>
+                        <div class="space-y-2 text-xs sm:text-sm text-gray-300">
+                            <a href="index.html" class="block text-green-400 hover:text-green-300 transition-colors" data-lang-key="home">Home</a>
+                            <a href="dashboard.html" class="block text-green-400 hover:text-green-300 transition-colors" data-lang-key="dashboard">Dashboard</a>
+                            <a href="blogs.html" class="block text-green-400 hover:text-green-300 transition-colors" data-lang-key="blogs">Blogs</a>
+                            <a href="farmers-directory.html" class="block text-green-400 hover:text-green-300 transition-colors" data-lang-key="farmersDirectory">Farmers Directory</a>
+                            <a href="privacy-policy.html" class="block text-green-400 hover:text-green-300 transition-colors" data-lang-key="privacyPolicy">Privacy Policy</a>
+                            <a href="terms-of-service.html" class="block text-green-400 hover:text-green-300 transition-colors" data-lang-key="termsOfService">Terms of Service</a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4" data-lang-key="sendFeedbackTitle">Send Feedback</h3>
+                        <form id="feedback-form" class="space-y-3">
+                            <input type="text" id="feedback-name" placeholder="Your Name" class="w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 text-xs sm:text-sm" data-lang-key="feedbackNamePlaceholder">
+                            <input type="email" id="feedback-email" placeholder="Your Email" class="w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 text-xs sm:text-sm" data-lang-key="feedbackEmailPlaceholder">
+                            <textarea id="feedback-message" placeholder="Your feedback or suggestions..." rows="3" class="w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 text-xs sm:text-sm resize-none" data-lang-key="feedbackMessagePlaceholder"></textarea>
+                            <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-xs sm:text-sm" data-lang-key="sendFeedbackButton">
+                                Send Feedback
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-white/10 text-center">
+                    <p class="text-xs sm:text-sm text-gray-400" data-lang-key="footerText">
+                        Made with ❤️ for Indian farmers. Empowering agriculture through technology.
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Farmer Details Modal -->
+    <div id="farmer-details-modal" class="fixed inset-0 bg-black bg-opacity-50 z-[200] hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="glass-card max-w-2xl w-full p-6 rounded-lg relative">
+                <button id="close-details-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
+                <div id="farmer-details-content">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contact-modal" class="fixed inset-0 bg-black bg-opacity-50 z-[200] hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="glass-card max-w-md w-full p-6 rounded-lg relative">
+                <button id="close-contact-modal" class="absolute top-4 right-4 text-gray-400 hover:text-white text-2xl">&times;</button>
+                <h3 class="text-xl font-bold text-white mb-4" data-lang-key="contactFarmer">Contact Farmer</h3>
+                <div id="contact-content">
+                    <p class="text-gray-300 mb-4" data-lang-key="contactInfoNote">Contact information for this farmer is not publicly available. Please contact the local agricultural office for assistance.</p>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                            <span class="text-gray-300">agrilocal4u@gmail.com</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                            </svg>
+                            <span class="text-gray-300">+91 8828906337</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Language translations for farmers directory
+        const translations = {
+            en: {
+                dashboard: "Dashboard",
+                blogs: "Blogs", 
+                farmersDirectory: "Farmers Directory",
+                farmersDirectoryTitle: "Maharashtra Farmers Directory",
+                farmersDirectorySubtitle: "Connect with farmers across Maharashtra. This directory contains publicly available information about registered farmers in the state.",
+                searchFarmers: "Search Farmers",
+                searchPlaceholder: "Search by name, district, village...",
+                filterByDistrict: "Filter by District",
+                farmersListTitle: "Farmers List",
+                farmerName: "Farmer Name",
+                district: "District:",
+                category: "Category:",
+                crops: "Crops:",
+                contact: "Contact",
+                viewDetails: "View Details",
+                previous: "Previous",
+                next: "Next",
+                contactFarmer: "Contact Farmer",
+                contactInfoNote: "Contact information for this farmer is not publicly available. Please contact the local agricultural office for assistance.",
+                dataSourceInfoTitle: "Data Source Information",
+                dataSourceInfoDescription: "This farmers directory contains publicly available information sourced from various government websites and agricultural databases. The data is compiled from:",
+                dataSourceInfoItem1: "Maharashtra State Agricultural Department",
+                dataSourceInfoItem2: "Farmer Registration Portal (FARMER)",
+                dataSourceInfoItem3: "PM-KISAN Database",
+                dataSourceInfoItem4: "Agricultural Census Reports",
+                dataSourceInfoItem5: "District Agricultural Offices",
+                dataSourceInfoNote: "Note: This information is publicly available and has been collected from various government sources for the purpose of connecting farmers and promoting agricultural collaboration.",
+                licenseLegalTitle: "License & Legal",
+                licenseLegalCopyright: "© 2024 AgriLocal. All rights reserved.",
+                licenseLegalLicense: "This software is licensed under the MIT License.",
+                licenseLegalCommercial: "For commercial use, please contact us.",
+                privacyPolicy: "Privacy Policy",
+                termsOfService: "Terms of Service",
+                contactUsTitle: "Contact Us",
+                contactUsEmail: "agrilocal4u@gmail.com",
+                contactUsPhone: "+91 8828906337",
+                contactUsAddress: "Mumbai, Maharashtra, India",
+                quickLinksTitle: "Quick Links",
+                home: "Home",
+                sendFeedbackTitle: "Send Feedback",
+                feedbackNamePlaceholder: "Your Name",
+                feedbackEmailPlaceholder: "Your Email",
+                feedbackMessagePlaceholder: "Your feedback or suggestions...",
+                sendFeedbackButton: "Send Feedback",
+                footerText: "Made with ❤️ for Indian farmers. Empowering agriculture through technology."
+            },
+            mr: {
+                dashboard: "डॅशबोर्ड",
+                blogs: "ब्लॉग्स",
+                farmersDirectory: "शेतकरी निर्देशिका",
+                farmersDirectoryTitle: "महाराष्ट्र शेतकरी निर्देशिका",
+                farmersDirectorySubtitle: "महाराष्ट्रातील शेतकऱ्यांशी जोडणी करा. या निर्देशिकेत राज्यातील नोंदणीकृत शेतकऱ्यांची सार्वजनिक माहिती समाविष्ट आहे.",
+                searchFarmers: "शेतकरी शोधा",
+                searchPlaceholder: "नाव, जिल्हा, गावानुसार शोधा...",
+                filterByDistrict: "जिल्ह्यानुसार फिल्टर करा",
+                farmersListTitle: "शेतकरी यादी",
+                farmerName: "शेतकरी नाव",
+                district: "जिल्हा:",
+                category: "श्रेणी:",
+                crops: "पिके:",
+                contact: "संपर्क",
+                viewDetails: "तपशील पहा",
+                previous: "मागील",
+                next: "पुढील",
+                contactFarmer: "शेतकरीशी संपर्क साधा",
+                contactInfoNote: "या शेतकऱ्याची संपर्क माहिती सार्वजनिक उपलब्ध नाही. कृपया सहाय्यासाठी स्थानिक कृषी कार्यालयाशी संपर्क साधा.",
+                dataSourceInfoTitle: "डेटा स्रोत माहिती",
+                dataSourceInfoDescription: "या शेतकरी निर्देशिकेत विविध सरकारी वेबसाइट्स आणि कृषी डेटाबेसमधून सार्वजनिक माहिती समाविष्ट आहे. डेटा येथून संकलित केला आहे:",
+                dataSourceInfoItem1: "महाराष्ट्र राज्य कृषी विभाग",
+                dataSourceInfoItem2: "शेतकरी नोंदणी पोर्टल (FARMER)",
+                dataSourceInfoItem3: "PM-KISAN डेटाबेस",
+                dataSourceInfoItem4: "कृषी जनगणना अहवाल",
+                dataSourceInfoItem5: "जिल्हा कृषी कार्यालये",
+                dataSourceInfoNote: "टीप: ही माहिती सार्वजनिक आहे आणि शेतकऱ्यांना जोडण्यासाठी आणि कृषी सहकार्याला प्रोत्साहन देण्यासाठी विविध सरकारी स्रोतांमधून गोळा केली आहे.",
+                licenseLegalTitle: "परवाना आणि कायदेशीर",
+                licenseLegalCopyright: "© 2024 AgriLocal. सर्व हक्क राखीव.",
+                licenseLegalLicense: "हा सॉफ्टवेअर MIT परवान्याखाली लायसेंस केलेला आहे.",
+                licenseLegalCommercial: "व्यावसायिक वापरासाठी, कृपया आमच्याशी संपर्क साधा.",
+                privacyPolicy: "गोपनीयता धोरण",
+                termsOfService: "सेवा अटी",
+                contactUsTitle: "आमच्याशी संपर्क साधा",
+                contactUsEmail: "agrilocal4u@gmail.com",
+                contactUsPhone: "+91 8828906337",
+                contactUsAddress: "मुंबई, महाराष्ट्र, भारत",
+                quickLinksTitle: "त्वरित दुवे",
+                home: "मुख्यपृष्ठ",
+                sendFeedbackTitle: "अभिप्राय पाठवा",
+                feedbackNamePlaceholder: "तुमचे नाव",
+                feedbackEmailPlaceholder: "तुमचा ईमेल",
+                feedbackMessagePlaceholder: "तुमचा अभिप्राय किंवा सूचना...",
+                sendFeedbackButton: "अभिप्राय पाठवा",
+                footerText: "भारतीय शेतकऱ्यांसाठी ❤️ सह बनवले. तंत्रज्ञानाद्वारे कृषी सक्षम करणे."
+            }
+        };
+
+        // Pagination and functionality variables
+        let currentPage = 1;
+        const itemsPerPage = 20;
+        let filteredFarmers = [];
+        let allFarmers = [];
+
+        // Language switching functionality
+        let currentLang = localStorage.getItem('agrilocalLang') || 'en';
+        const langEnBtn = document.getElementById('lang-en');
+        const langMrBtn = document.getElementById('lang-mr');
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('agrilocalLang', lang);
+
+            const t = translations[lang];
+
+            document.querySelectorAll('[data-lang-key]').forEach(el => {
+                const key = el.dataset.langKey;
+                if (t[key]) {
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        el.placeholder = t[key];
+                    } else {
+                        el.innerHTML = t[key];
+                    }
+                }
+            });
+
+            // Update language button states
+            if (langEnBtn) {
+                if (lang === 'en') {
+                    langEnBtn.classList.add('active');
+                } else {
+                    langEnBtn.classList.remove('active');
+                }
+            }
+
+            if (langMrBtn) {
+                if (lang === 'mr') {
+                    langMrBtn.classList.add('active');
+                } else {
+                    langMrBtn.classList.remove('active');
+                }
+            }
+        }
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('opacity-0');
+            mobileMenu.classList.toggle('scale-95');
+            mobileMenu.classList.toggle('pointer-events-none');
+        });
+
+        // Modal functionality
+        const farmerDetailsModal = document.getElementById('farmer-details-modal');
+        const contactModal = document.getElementById('contact-modal');
+        const closeDetailsModal = document.getElementById('close-details-modal');
+        const closeContactModal = document.getElementById('close-contact-modal');
+
+        function showFarmerDetails(farmerCard) {
+            const name = farmerCard.querySelector('h3').textContent;
+            const district = farmerCard.querySelector('div:nth-child(2)').textContent;
+            const category = farmerCard.querySelector('div:nth-child(3)').textContent;
+            const crops = farmerCard.querySelector('div:nth-child(4)').textContent;
+
+            const content = `
+                <h2 class="text-2xl font-bold text-white mb-4">${name}</h2>
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="text-lg font-semibold text-green-400 mb-2">${translations[currentLang].district}</h3>
+                        <p class="text-gray-300">${district.replace('District:', '').trim()}</p>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-green-400 mb-2">${translations[currentLang].category}</h3>
+                        <p class="text-gray-300">${category.replace('Category:', '').trim()}</p>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-green-400 mb-2">${translations[currentLang].crops}</h3>
+                        <p class="text-gray-300">${crops.replace('Crops:', '').trim()}</p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('farmer-details-content').innerHTML = content;
+            farmerDetailsModal.classList.remove('hidden');
+        }
+
+        function showContactModal() {
+            contactModal.classList.remove('hidden');
+        }
+
+        // Close modals
+        closeDetailsModal.addEventListener('click', () => {
+            farmerDetailsModal.classList.add('hidden');
+        });
+
+        closeContactModal.addEventListener('click', () => {
+            contactModal.classList.add('hidden');
+        });
+
+        // Close modals when clicking outside
+        farmerDetailsModal.addEventListener('click', (e) => {
+            if (e.target === farmerDetailsModal) {
+                farmerDetailsModal.classList.add('hidden');
+            }
+        });
+
+        contactModal.addEventListener('click', (e) => {
+            if (e.target === contactModal) {
+                contactModal.classList.add('hidden');
+            }
+        });
+
+        // Pagination functionality
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredFarmers.length / itemsPerPage);
+            const pageNumbers = document.getElementById('page-numbers');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+
+            // Update page numbers
+            pageNumbers.innerHTML = '';
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.className = `page-btn px-3 py-2 rounded-lg text-sm transition-colors ${i === currentPage ? 'bg-green-600 text-white' : 'bg-gray-700 hover:bg-gray-600 text-white'}`;
+                btn.textContent = i;
+                btn.dataset.page = i;
+                btn.addEventListener('click', () => goToPage(i));
+                pageNumbers.appendChild(btn);
+            }
+
+            // Update prev/next buttons
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+            prevBtn.style.opacity = currentPage === 1 ? '0.5' : '1';
+            nextBtn.style.opacity = currentPage === totalPages ? '0.5' : '1';
+        }
+
+        function goToPage(page) {
+            currentPage = page;
+            displayFarmers();
+            updatePagination();
+        }
+
+        function displayFarmers() {
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const farmersToShow = filteredFarmers.slice(startIndex, endIndex);
+
+            // Hide all farmer cards
+            allFarmers.forEach(card => {
+                card.style.display = 'none';
+            });
+
+            // Show only the farmers for current page
+            farmersToShow.forEach(card => {
+                card.style.display = 'block';
+            });
+
+            // Update results count
+            const t = translations[currentLang];
+            const totalVisible = filteredFarmers.length;
+            resultsCount.textContent = currentLang === 'mr' ? 
+                `${totalVisible} शेतकरी दाखवत आहे` : 
+                `Showing ${totalVisible} farmers`;
+        }
+
+        // Search and filter functionality
+        const searchInput = document.getElementById('search-input');
+        const districtFilter = document.getElementById('district-filter');
+        const resultsCount = document.getElementById('results-count');
+
+        function filterFarmers() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedDistrict = districtFilter.value;
+
+            filteredFarmers = allFarmers.filter(card => {
+                const farmerName = card.querySelector('h3').textContent.toLowerCase();
+                const district = card.dataset.district;
+                const village = card.querySelector('div:nth-child(2)').textContent.toLowerCase();
+                const crops = card.querySelector('div:nth-child(4)').textContent.toLowerCase();
+
+                const matchesSearch = farmerName.includes(searchTerm) || 
+                                    village.includes(searchTerm) || 
+                                    crops.includes(searchTerm);
+                const matchesDistrict = !selectedDistrict || district === selectedDistrict;
+
+                return matchesSearch && matchesDistrict;
+            });
+
+            currentPage = 1; // Reset to first page when filtering
+            displayFarmers();
+            updatePagination();
+        }
+
+        // Initialize all farmers array and add event listeners
+        function initializeFarmers() {
+            allFarmers = Array.from(document.querySelectorAll('.farmer-card'));
+            
+            // Add event listeners to all buttons
+            allFarmers.forEach(card => {
+                const contactBtn = card.querySelector('button:first-of-type');
+                const detailsBtn = card.querySelector('button:last-of-type');
+                
+                if (contactBtn) {
+                    contactBtn.addEventListener('click', () => showContactModal());
+                }
+                
+                if (detailsBtn) {
+                    detailsBtn.addEventListener('click', () => showFarmerDetails(card));
+                }
+            });
+
+            // Initialize pagination
+            filteredFarmers = [...allFarmers];
+            displayFarmers();
+            updatePagination();
+        }
+
+        // Pagination button event listeners
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            if (currentPage > 1) {
+                goToPage(currentPage - 1);
+            }
+        });
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            const totalPages = Math.ceil(filteredFarmers.length / itemsPerPage);
+            if (currentPage < totalPages) {
+                goToPage(currentPage + 1);
+            }
+        });
+
+        // Event listeners
+        if (langEnBtn) langEnBtn.addEventListener('click', () => switchLanguage('en'));
+        if (langMrBtn) langMrBtn.addEventListener('click', () => switchLanguage('mr'));
+
+        searchInput.addEventListener('input', filterFarmers);
+        districtFilter.addEventListener('change', filterFarmers);
+
+        // Initialize everything
+        switchLanguage(currentLang);
+        initializeFarmers();
+    </script>
+    
+    <div id="language-switcher" class="lang-btn-container">
+        <button id="lang-en" class="lang-btn active">English</button>
+        <button id="lang-mr" class="lang-btn">मराठी</button>
+    </div>
+</body>
+</html> 
