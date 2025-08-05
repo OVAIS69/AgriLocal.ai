@@ -2,6 +2,7 @@
 const GEMINI_API_KEY = "AIzaSyDoo_0AOtdDM2IV4EREyHTn13Q-5hioQbU";
 let currentLang = localStorage.getItem('agrilocalLang') || 'en';
 let user = {};
+let isVoiceInput = false; // Track if current input is from voice
 
 // Language translations
 const translations = {
@@ -12,7 +13,8 @@ const translations = {
         online: "Online",
         assistant: "Your farming assistant",
         listening: "Listening...",
-        speak: "Speak"
+        speak: "Speak",
+        processing: "Processing voice input..."
     },
     hi: {
         welcome: "नमस्ते! मैं AgriBot हूं, आपका कृषि सहायक। मैं आपको फसल सिफारिशें, मौसम अलर्ट, बाजार भाव और जैविक खेती में मदद कर सकता हूं। आप हिंदी, अंग्रेजी या मराठी में प्रश्न पूछ सकते हैं। माइक्रोफोन बटन का उपयोग करके आवाज से पूछ सकते हैं!",
@@ -21,7 +23,8 @@ const translations = {
         online: "ऑनलाइन",
         assistant: "आपका कृषि सहायक",
         listening: "सुन रहा हूं...",
-        speak: "बोलें"
+        speak: "बोलें",
+        processing: "आवाज इनपुट प्रोसेसिंग..."
     },
     mr: {
         welcome: "नमस्कार! मी AgriBot आहे, तुमचा शेती सहाय्यक. मी तुम्हाला पिकांच्या शिफारसी, हवामान सूचना, बाजार भाव आणि सेंद्रिय शेतीबद्दल मदत करू शकतो. तुम्ही मराठी, हिंदी किंवा इंग्रजीत प्रश्न विचारू शकता. मायक्रोफोन बटण वापरून आवाजाने विचारू शकता!",
@@ -30,14 +33,15 @@ const translations = {
         online: "ऑनलाइन",
         assistant: "तुमचा शेती सहाय्यक",
         listening: "ऐकत आहे...",
-        speak: "बोला"
+        speak: "बोला",
+        processing: "आवाज इनपुट प्रक्रिया..."
     }
 };
 
-// System prompts for different languages
+// System prompts for different languages - Updated to ensure responses in selected language
 const systemPrompts = {
     en: `You are AgriBot — the smart farming assistant for AgriLocal.
-Your job is to help Indian farmers by giving expert guidance based on AgriLocal's features. You must answer in English.
+Your job is to help Indian farmers by giving expert guidance based on AgriLocal's features. You MUST answer in English only.
 
 AgriLocal helps farmers by:
 - Recommending best crops for the season
@@ -48,10 +52,12 @@ AgriLocal helps farmers by:
 - Helping with irrigation and fertilizer suggestions
 - Connecting with nearby Krishi Kendras and experts
 
-Be helpful, clear, and culturally aware. Use local terms and examples when relevant. Keep responses concise but informative. Format your responses in a clean, readable way without using markdown formatting like ** or *. Use simple text formatting with clear structure.`,
+Be helpful, clear, and culturally aware. Use local terms and examples when relevant. Keep responses concise but informative. Format your responses in a clean, readable way without using markdown formatting like ** or *. Use simple text formatting with clear structure.
+
+IMPORTANT: Always respond in English, regardless of the language the user asks in.`,
 
     hi: `आप AgriBot हैं — AgriLocal के लिए स्मार्ट कृषि सहायक।
-आपका काम भारतीय किसानों की AgriLocal की सुविधाओं के आधार पर विशेषज्ञ मार्गदर्शन देकर मदद करना है। आपको हिंदी में जवाब देना चाहिए।
+आपका काम भारतीय किसानों की AgriLocal की सुविधाओं के आधार पर विशेषज्ञ मार्गदर्शन देकर मदद करना है। आपको केवल हिंदी में जवाब देना चाहिए।
 
 AgriLocal किसानों की मदद करता है:
 - मौसम के लिए सर्वोत्तम फसलों की सिफारिश
@@ -62,10 +68,12 @@ AgriLocal किसानों की मदद करता है:
 - सिंचाई और उर्वरक सुझावों में मदद
 - पास के कृषि केंद्रों और विशेषज्ञों से जुड़ना
 
-सहायक, स्पष्ट और सांस्कृतिक रूप से जागरूक रहें। प्रासंगिक होने पर स्थानीय शब्दों और उदाहरणों का उपयोग करें। अपने जवाब साफ, पठनीय तरीके से प्रारूपित करें, ** या * जैसे मार्कडाउन प्रारूपण का उपयोग न करें। स्पष्ट संरचना के साथ सरल पाठ प्रारूपण का उपयोग करें।`,
+सहायक, स्पष्ट और सांस्कृतिक रूप से जागरूक रहें। प्रासंगिक होने पर स्थानीय शब्दों और उदाहरणों का उपयोग करें। अपने जवाब साफ, पठनीय तरीके से प्रारूपित करें, ** या * जैसे मार्कडाउन प्रारूपण का उपयोग न करें। स्पष्ट संरचना के साथ सरल पाठ प्रारूपण का उपयोग करें।
+
+महत्वपूर्ण: हमेशा हिंदी में जवाब दें, चाहे उपयोगकर्ता किसी भी भाषा में पूछे।`,
 
     mr: `तुम्ही AgriBot आहात — AgriLocal साठी स्मार्ट शेती सहाय्यक।
-तुमचे काम AgriLocal च्या वैशिष्ट्यांवर आधारित तज्ञ मार्गदर्शन देऊन भारतीय शेतकऱ्यांना मदत करणे आहे. तुम्ही मराठीत उत्तर दिले पाहिजे.
+तुमचे काम AgriLocal च्या वैशिष्ट्यांवर आधारित तज्ञ मार्गदर्शन देऊन भारतीय शेतकऱ्यांना मदत करणे आहे. तुम्ही केवळ मराठीत उत्तर दिले पाहिजे.
 
 AgriLocal शेतकऱ्यांना मदत करते:
 - हंगामासाठी सर्वोत्तम पिकांच्या शिफारसी
@@ -76,7 +84,9 @@ AgriLocal शेतकऱ्यांना मदत करते:
 - सिंचाई आणि खते सूचनांमध्ये मदत
 - जवळच्या कृषी केंद्रांशी आणि तज्ज्ञांशी जोडणे
 
-सहाय्यक, स्पष्ट आणि सांस्कृतिकदृष्ट्या जागरूक रहा. प्रासंगिक असल्यास स्थानिक शब्द आणि उदाहरणे वापरा. तुमची उत्तरे स्वच्छ, वाचनीय पद्धतीने प्रारूपित करा, ** किंवा * सारखे मार्कडाउन प्रारूपण वापरू नका. स्पष्ट संरचनेसह साधे मजकूर प्रारूपण वापरा.`
+सहाय्यक, स्पष्ट आणि सांस्कृतिकदृष्ट्या जागरूक रहा. प्रासंगिक असल्यास स्थानिक शब्द आणि उदाहरणे वापरा. तुमची उत्तरे स्वच्छ, वाचनीय पद्धतीने प्रारूपित करा, ** किंवा * सारखे मार्कडाउन प्रारूपण वापरू नका. स्पष्ट संरचनेसह साधे मजकूर प्रारूपण वापरा.
+
+महत्वाचे: नेहमी मराठीत उत्तर द्या, उपयोगकर्ता कोणत्याही भाषेत विचारला तरीही.`
 };
 
 // DOM elements
@@ -98,6 +108,7 @@ let recognition = null;
 let isListening = false;
 let speechSynthesis = window.speechSynthesis;
 let isSpeaking = false;
+let voicesLoaded = false;
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
@@ -105,7 +116,22 @@ document.addEventListener('DOMContentLoaded', () => {
     setupEventListeners();
     updateLanguageUI();
     updatePlaceholders();
+    initializeVoices();
 });
+
+// Initialize speech synthesis voices
+function initializeVoices() {
+    // Wait for voices to be loaded
+    if (speechSynthesis.getVoices().length === 0) {
+        speechSynthesis.onvoiceschanged = () => {
+            voicesLoaded = true;
+            console.log('Available voices:', speechSynthesis.getVoices().map(v => `${v.name} (${v.lang})`));
+        };
+    } else {
+        voicesLoaded = true;
+        console.log('Available voices:', speechSynthesis.getVoices().map(v => `${v.name} (${v.lang})`));
+    }
+}
 
 function loadUserData() {
     const storedUser = localStorage.getItem('agrilocalUser');
@@ -187,7 +213,19 @@ function initializeVoiceRecognition() {
         recognition.onresult = (event) => {
             const transcript = event.results[0][0].transcript;
             chatInput.value = transcript;
+            isVoiceInput = true; // Mark this as voice input
             stopVoiceRecognition();
+            
+            // Show processing indicator
+            voiceStatus.classList.remove('hidden');
+            voiceStatusText.textContent = translations[currentLang].processing;
+            
+            // Automatically send the message after voice input
+            setTimeout(() => {
+                sendMessage();
+                isVoiceInput = false; // Reset the flag
+                voiceStatus.classList.add('hidden');
+            }, 1000); // Small delay to show the transcript and processing
         };
         
         recognition.onerror = (event) => {
@@ -241,47 +279,114 @@ function stopVoiceRecognition() {
     }
 }
 
-// Text-to-Speech function
+// Text-to-Speech function with optimized voice selection
 function speakText(text) {
-    if (speechSynthesis) {
-        // Stop any ongoing speech
-        speechSynthesis.cancel();
-        
-        const utterance = new SpeechSynthesisUtterance(text);
-        
-        // Set language based on current selection
-        const languageMap = {
-            'en': 'en-US',
-            'hi': 'hi-IN',
-            'mr': 'mr-IN'
-        };
-        utterance.lang = languageMap[currentLang] || 'en-US';
-        
-        // Set voice properties
-        utterance.rate = 0.9;
-        utterance.pitch = 1;
-        utterance.volume = 0.8;
-        
-        // Show stop button when speaking starts
-        utterance.onstart = () => {
-            isSpeaking = true;
-            stopSpeechContainer.classList.remove('hidden');
-        };
-        
-        // Hide stop button when speaking ends
-        utterance.onend = () => {
-            isSpeaking = false;
-            stopSpeechContainer.classList.add('hidden');
-        };
-        
-        // Hide stop button if speech is cancelled
-        utterance.oncancel = () => {
-            isSpeaking = false;
-            stopSpeechContainer.classList.add('hidden');
-        };
-        
-        speechSynthesis.speak(utterance);
+    if (!speechSynthesis || !voicesLoaded) {
+        // Wait for voices to load
+        if (!voicesLoaded) {
+            speechSynthesis.onvoiceschanged = () => {
+                voicesLoaded = true;
+                speakText(text); // Retry once voices are loaded
+            };
+        }
+        return;
     }
+
+    // Stop any ongoing speech
+    speechSynthesis.cancel();
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    const voices = speechSynthesis.getVoices();
+    
+    // Optimized voice selection for Marathi and other languages
+    let selectedVoice = null;
+    
+    if (currentLang === 'mr') {
+        // For Marathi, try multiple fallback options
+        selectedVoice = voices.find(voice => 
+            voice.lang === 'mr-IN' || 
+            voice.lang === 'mr' ||
+            voice.lang.startsWith('mr')
+        );
+        
+        // Fallback to Hindi voice
+        if (!selectedVoice) {
+            selectedVoice = voices.find(voice => 
+                voice.lang === 'hi-IN' || 
+                voice.lang === 'hi' ||
+                voice.lang.startsWith('hi')
+            );
+        }
+        
+        // Fallback to any Indian language voice
+        if (!selectedVoice) {
+            selectedVoice = voices.find(voice => 
+                voice.lang.includes('IN') || 
+                voice.name.toLowerCase().includes('indian') ||
+                voice.name.toLowerCase().includes('india')
+            );
+        }
+    } else if (currentLang === 'hi') {
+        // For Hindi
+        selectedVoice = voices.find(voice => 
+            voice.lang === 'hi-IN' || 
+            voice.lang === 'hi' ||
+            voice.lang.startsWith('hi')
+        );
+        
+        // Fallback to any Indian language voice
+        if (!selectedVoice) {
+            selectedVoice = voices.find(voice => 
+                voice.lang.includes('IN') || 
+                voice.name.toLowerCase().includes('indian') ||
+                voice.name.toLowerCase().includes('india')
+            );
+        }
+    } else {
+        // For English
+        selectedVoice = voices.find(voice => 
+            voice.lang === 'en-US' || 
+            voice.lang === 'en' ||
+            voice.lang.startsWith('en')
+        );
+    }
+    
+    // Final fallback: English voice or first available
+    if (!selectedVoice) {
+        selectedVoice = voices.find(voice => voice.lang.startsWith('en')) || voices[0];
+    }
+    
+    // Set the voice and language
+    if (selectedVoice) {
+        utterance.voice = selectedVoice;
+        utterance.lang = selectedVoice.lang;
+        console.log(`Using voice: ${selectedVoice.name} (${selectedVoice.lang}) for ${currentLang}`);
+    }
+    
+    // Optimized voice properties for better performance
+    utterance.rate = 0.8; // Slightly slower for better clarity
+    utterance.pitch = 1;
+    utterance.volume = 0.9;
+    
+    // Show stop button when speaking starts
+    utterance.onstart = () => {
+        isSpeaking = true;
+        stopSpeechContainer.classList.remove('hidden');
+    };
+    
+    // Hide stop button when speaking ends
+    utterance.onend = () => {
+        isSpeaking = false;
+        stopSpeechContainer.classList.add('hidden');
+    };
+    
+    // Hide stop button if speech is cancelled
+    utterance.oncancel = () => {
+        isSpeaking = false;
+        stopSpeechContainer.classList.add('hidden');
+    };
+    
+    speechSynthesis.speak(utterance);
 }
 
 // Stop speech function
@@ -296,6 +401,11 @@ function stopSpeech() {
 async function sendMessage() {
     const message = chatInput.value.trim();
     if (!message) return;
+    
+    // If this is a text input (not voice), reset the flag
+    if (!isVoiceInput) {
+        isVoiceInput = false;
+    }
     
     // Add user message to chat
     addMessage(message, 'user');
@@ -330,8 +440,8 @@ function addMessage(text, sender) {
     messageText.innerHTML = formattedText;
     messageDiv.appendChild(messageText);
     
-    // Add voice button for bot messages
-    if (sender === 'bot') {
+    // Add voice button for bot messages only if input was not from voice
+    if (sender === 'bot' && !isVoiceInput) {
         const voiceButton = document.createElement('button');
         voiceButton.className = 'mt-2 text-green-400 hover:text-green-300 transition-colors text-xs sm:text-sm touch-friendly';
         voiceButton.innerHTML = `
@@ -342,9 +452,14 @@ function addMessage(text, sender) {
         `;
         voiceButton.onclick = () => speakText(text);
         messageDiv.appendChild(voiceButton);
-        
-        // Auto-speak bot responses (optional - can be disabled)
-        // speakText(text);
+    }
+    
+    // Auto-speak bot responses when voice input was used
+    if (sender === 'bot' && isVoiceInput) {
+        // Auto-speak the response when voice input was used
+        setTimeout(() => {
+            speakText(text);
+        }, 1000); // Small delay to let the message appear first
     }
     
     chatMessages.appendChild(messageDiv);
@@ -366,9 +481,16 @@ function formatResponse(text) {
         // Convert bullet points
         .replace(/^[-*]\s+/gm, '• ')
         // Convert numbered lists
-        .replace(/^\d+\.\s+/gm, (match) => `<span class="text-green-400">${match}</span>`)
-        // Highlight important terms
-        .replace(/(\b(?:crop|crops|weather|price|organic|fertilizer|irrigation|pest|disease)\b)/gi, '<span class="text-green-300">$1</span>');
+        .replace(/^\d+\.\s+/gm, (match) => `<span class="text-green-400">${match}</span>`);
+    
+    // Language-specific highlighting for important terms
+    if (currentLang === 'en') {
+        formatted = formatted.replace(/(\b(?:crop|crops|weather|price|organic|fertilizer|irrigation|pest|disease|season|market|soil|harvest)\b)/gi, '<span class="text-green-300">$1</span>');
+    } else if (currentLang === 'hi') {
+        formatted = formatted.replace(/(\b(?:फसल|फसलें|मौसम|भाव|जैविक|उर्वरक|सिंचाई|कीट|रोग|मौसम|बाजार|मिट्टी|फसल कटाई)\b)/gi, '<span class="text-green-300">$1</span>');
+    } else if (currentLang === 'mr') {
+        formatted = formatted.replace(/(\b(?:पीक|पिके|हवामान|भाव|सेंद्रिय|खते|सिंचन|कीड|रोग|हंगाम|बाजार|माती|कापणी)\b)/gi, '<span class="text-green-300">$1</span>');
+    }
     
     return formatted;
 }
@@ -433,7 +555,7 @@ function getMockResponse(userMessage) {
     const message = userMessage.toLowerCase();
     const lang = currentLang;
     
-    // Mock responses based on keywords
+    // Mock responses based on keywords - Always return in selected language
     if (message.includes('crop') || message.includes('फसल') || message.includes('पीक')) {
         return lang === 'en' ? 
             "Based on your location and current season, I recommend planting wheat, mustard, and vegetables. These crops are well-suited for the current weather conditions and have good market demand." :
@@ -466,7 +588,7 @@ function getMockResponse(userMessage) {
             "सेंद्रिय शेतीसाठी, कीड नियंत्रणासाठी नीम तेल, खतेसाठी शेण आणि वर्मीकंपोस्ट, आणि मातीचे आरोग्य राखण्यासाठी पीक फेरफार वापरा. हे पद्धती टिकाऊ आहेत आणि कालांतराने मातीची गुणवत्ता सुधारतात.";
     }
     
-    // Default response
+    // Default response - Always in selected language
     return lang === 'en' ?
         "I'm here to help you with farming advice. You can ask me about crops, weather, market prices, organic farming, irrigation, or any other farming-related questions." :
         lang === 'hi' ?
@@ -477,4 +599,30 @@ function getMockResponse(userMessage) {
 // Function to open AgriBot from dashboard
 function openAgriBot() {
     window.open('agribot.html', '_blank');
+}
+
+// Debug function to test voice selection (can be called from browser console)
+function testVoiceSelection() {
+    const voices = speechSynthesis.getVoices();
+    console.log('=== Available Voices ===');
+    voices.forEach((voice, index) => {
+        console.log(`${index + 1}. ${voice.name} (${voice.lang}) - Default: ${voice.default}`);
+    });
+    
+    console.log('\n=== Testing Voice Selection ===');
+    const testTexts = {
+        'en': 'Hello, this is a test message in English.',
+        'hi': 'नमस्ते, यह हिंदी में एक परीक्षण संदेश है।',
+        'mr': 'नमस्कार, हा मराठीत एक चाचणी संदेश आहे.'
+    };
+    
+    Object.keys(testTexts).forEach(lang => {
+        console.log(`\nTesting ${lang}:`);
+        const originalLang = currentLang;
+        currentLang = lang;
+        speakText(testTexts[lang]);
+        setTimeout(() => {
+            currentLang = originalLang;
+        }, 2000);
+    });
 } 
