@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - AgriLocal</title>
+    <title>AgriLocal - Farmer Blogs</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,169 +20,152 @@
         <header id="main-header" class="fixed top-0 left-0 right-0 z-[100] py-4">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <nav class="glass-card flex justify-between items-center p-2 rounded-full">
-                    <a href="index.html" class="flex items-center gap-3 pl-4">
+                    <a href="#" class="flex items-center gap-3 pl-4">
                         <svg width="28" height="28" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                             <path d="M50 2.5C30.4 2.5 15 18.3 15 38c0 14.9 16.2 36.5 31.1 53.4.9 1 2.3 1.5 3.7 1.5s2.8-.5 3.7-1.5C68.8 74.5 85 52.9 85 38c0-19.7-15.4-35.5-35-35.5z" fill="var(--primary-green)"/>
                             <path d="M50 15c-12.7 0-23 10.3-23 23 0 7.5 3.6 14.1 9.2 18.4.6.4 1.3.6 2 .6 1.1 0 2.2-.6 2.8-1.7 3.3-6.1 3.2-14.7-.3-21.7C37.9 26.2 43.6 22 50 22c5.5 0 10.4 3.4 12.6 8.4 1.4 3.3 1.4 7.2 0 10.6-.6 1.2.1 2.6 1.3 3.2 1.2.6 2.6-.1 3.2-1.3 3.2-6.5 3.1-14.4-.3-20.9C63.6 18.5 57.2 15 50 15z" fill="#0f172a"/>
                         </svg>
                         <span class="text-xl font-semibold logo-title text-white">AgriLocal</span>
                     </a>
-                    <a href="index.html" class="text-white hover:text-green-300 transition-colors font-medium px-4 py-2">
-                        ← Back to Home
-                    </a>
+                    <!-- Desktop Navigation -->
+                    <div class="hidden md:flex items-center gap-2">
+                        <a href="dashboard.html" class="text-white hover:text-green-300 transition-colors font-medium px-4 py-2">Dashboard</a>
+                        <a href="index.html" class="text-white hover:text-green-300 transition-colors font-medium px-4 py-2">Home</a>
+                    </div>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" class="md:hidden flex items-center p-2 text-white hover:text-green-300 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </nav>
+                
+                <!-- Mobile Navigation Menu -->
+                <div id="mobile-menu" class="md:hidden mt-4 glass-card rounded-lg transform -translate-y-2 opacity-0 scale-95 transition-all duration-300 ease-in-out pointer-events-none hidden">
+                    <div class="p-4 space-y-3">
+                        <a href="dashboard.html" class="block text-white hover:text-green-300 transition-colors font-medium py-2 px-4 rounded-lg hover:bg-white/10">Dashboard</a>
+                        <a href="index.html" class="block text-white hover:text-green-300 transition-colors font-medium py-2 px-4 rounded-lg hover:bg-white/10">Home</a>
+                    </div>
+                </div>
                 </nav>
             </div>
         </header>
 
-        <div class="px-4 sm:px-6 lg:px-8">
-            <main class="max-w-4xl mx-auto pt-32 sm:pt-48 pb-24">
-                <div class="glass-card p-8 md:p-12">
-                    <h1 class="text-4xl font-bold text-white mb-8">Privacy Policy</h1>
-                    <p class="text-gray-300 mb-6">Last updated: December 2024</p>
+        <div id="app-container" class="max-w-7xl mx-auto pt-32 px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold text-white mb-4" data-lang-key="blogsTitle">Blogs For Farmers In Maharashtra</h1>
+                <p class="text-lg text-gray-300 font-light">Comprehensive farming guides and expert advice for Maharashtra farmers</p>
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="mb-6 sm:mb-8">
+                <div class="relative max-w-md mx-auto">
+                    <input type="text" id="search-input" placeholder="Search for crops, techniques, tips..." class="w-full px-4 py-3 pl-12 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 focus:ring-1 focus:ring-green-400">
+                    <svg class="absolute left-3 top-3.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+            </div>
 
-                    <div class="prose prose-lg max-w-none">
-                        <section class="mb-8">
-                            <h2 class="text-2xl font-bold text-white mb-4">1. Introduction</h2>
-                            <p class="text-gray-300 mb-4">
-                                Welcome to AgriLocal ("we," "our," or "us"). We are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our AI-powered farming assistant platform.
-                            </p>
-                            <p class="text-gray-300">
-                                By using AgriLocal, you agree to the collection and use of information in accordance with this policy. If you do not agree with our policies and practices, please do not use our service.
-                            </p>
-                        </section>
-
-                        <section class="mb-8">
-                            <h2 class="text-2xl font-bold text-white mb-4">2. Information We Collect</h2>
-                            
-                            <h3 class="text-xl font-semibold text-green-300 mb-3">2.1 Personal Information</h3>
-                            <p class="text-gray-300 mb-4">We may collect the following personal information:</p>
-                            <ul class="text-gray-300 mb-6 list-disc pl-6 space-y-2">
-                                <li>Name and contact information (email address, phone number)</li>
-                                <li>Farm location and agricultural data</li>
-                                <li>Crop information and farming practices</li>
-                                <li>Satellite imagery and field photographs</li>
-                                <li>Device information and usage analytics</li>
-                            </ul>
-
-                            <h3 class="text-xl font-semibold text-green-300 mb-3">2.2 Automatically Collected Information</h3>
-                            <p class="text-gray-300 mb-4">We automatically collect certain information when you use our service:</p>
-                            <ul class="text-gray-300 mb-6 list-disc pl-6 space-y-2">
-                                <li>IP address and device identifiers</li>
-                                <li>Browser type and version</li>
-                                <li>Operating system</li>
-                                <li>Usage patterns and interaction data</li>
-                                <li>Location data (with your consent)</li>
-                            </ul>
-                        </section>
-
-                        <section class="mb-8">
-                            <h2 class="text-2xl font-bold text-white mb-4">3. How We Use Your Information</h2>
-                            <p class="text-gray-300 mb-4">We use the collected information for the following purposes:</p>
-                            <ul class="text-gray-300 mb-6 list-disc pl-6 space-y-2">
-                                <li>Provide AI-powered farming recommendations and insights</li>
-                                <li>Analyze crop health and provide pest diagnosis</li>
-                                <li>Generate personalized irrigation schedules</li>
-                                <li>Improve our AI algorithms and service quality</li>
-                                <li>Send important updates and notifications</li>
-                                <li>Provide customer support and respond to inquiries</li>
-                                <li>Ensure platform security and prevent fraud</li>
-                            </ul>
-                        </section>
-
-                        <section class="mb-8">
-                            <h2 class="text-2xl font-bold text-white mb-4">4. Data Sharing and Disclosure</h2>
-                            <p class="text-gray-300 mb-4">We do not sell, trade, or rent your personal information to third parties. We may share your information in the following circumstances:</p>
-                            <ul class="text-gray-300 mb-6 list-disc pl-6 space-y-2">
-                                <li><strong>Service Providers:</strong> With trusted third-party service providers who assist in operating our platform</li>
-                                <li><strong>Legal Requirements:</strong> When required by law or to protect our rights and safety</li>
-                                <li><strong>Business Transfers:</strong> In connection with a merger, acquisition, or sale of assets</li>
-                                <li><strong>Consent:</strong> With your explicit consent for specific purposes</li>
-                            </ul>
-                        </section>
-
-                        <section class="mb-8">
-                            <h2 class="text-2xl font-bold text-white mb-4">5. Data Security</h2>
-                            <p class="text-gray-300 mb-4">
-                                We implement appropriate technical and organizational security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. These measures include:
-                            </p>
-                            <ul class="text-gray-300 mb-6 list-disc pl-6 space-y-2">
-                                <li>Encryption of data in transit and at rest</li>
-                                <li>Regular security assessments and updates</li>
-                                <li>Access controls and authentication mechanisms</li>
-                                <li>Secure data centers and infrastructure</li>
-                                <li>Employee training on data protection</li>
-                            </ul>
-                        </section>
-
-                        <section class="mb-8">
-                            <h2 class="text-2xl font-bold text-white mb-4">6. Your Rights and Choices</h2>
-                            <p class="text-gray-300 mb-4">You have the following rights regarding your personal information:</p>
-                            <ul class="text-gray-300 mb-6 list-disc pl-6 space-y-2">
-                                <li><strong>Access:</strong> Request access to your personal information</li>
-                                <li><strong>Correction:</strong> Request correction of inaccurate information</li>
-                                <li><strong>Deletion:</strong> Request deletion of your personal information</li>
-                                <li><strong>Portability:</strong> Request a copy of your data in a portable format</li>
-                                <li><strong>Opt-out:</strong> Opt out of marketing communications</li>
-                                <li><strong>Consent Withdrawal:</strong> Withdraw consent for data processing</li>
-                            </ul>
-                        </section>
-
-                        <section class="mb-8">
-                            <h2 class="text-2xl font-bold text-white mb-4">7. Data Retention</h2>
-                            <p class="text-gray-300 mb-4">
-                                We retain your personal information for as long as necessary to provide our services and fulfill the purposes outlined in this Privacy Policy. We will delete or anonymize your information when it is no longer needed, unless we are required to retain it for legal or regulatory purposes.
-                            </p>
-                        </section>
-
-                        <section class="mb-8">
-                            <h2 class="text-2xl font-bold text-white mb-4">8. Cookies and Tracking Technologies</h2>
-                            <p class="text-gray-300 mb-4">
-                                We use cookies and similar tracking technologies to enhance your experience, analyze usage patterns, and improve our services. You can control cookie settings through your browser preferences.
-                            </p>
-                        </section>
-
-                        <section class="mb-8">
-                            <h2 class="text-2xl font-bold text-white mb-4">9. International Data Transfers</h2>
-                            <p class="text-gray-300 mb-4">
-                                Your information may be transferred to and processed in countries other than your own. We ensure that such transfers comply with applicable data protection laws and implement appropriate safeguards to protect your information.
-                            </p>
-                        </section>
-
-                        <section class="mb-8">
-                            <h2 class="text-2xl font-bold text-white mb-4">10. Children's Privacy</h2>
-                            <p class="text-gray-300 mb-4">
-                                Our service is not intended for children under the age of 13. We do not knowingly collect personal information from children under 13. If you believe we have collected information from a child under 13, please contact us immediately.
-                            </p>
-                        </section>
-
-                        <section class="mb-8">
-                            <h2 class="text-2xl font-bold text-white mb-4">11. Changes to This Privacy Policy</h2>
-                            <p class="text-gray-300 mb-4">
-                                We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date. We encourage you to review this Privacy Policy periodically.
-                            </p>
-                        </section>
-
-                        <section class="mb-8">
-                            <h2 class="text-2xl font-bold text-white mb-4">12. Contact Us</h2>
-                            <p class="text-gray-300 mb-4">
-                                If you have any questions about this Privacy Policy or our data practices, please contact us:
-                            </p>
-                            <div class="bg-gray-800/50 p-4 rounded-lg">
-                                <p class="text-gray-300 mb-2"><strong>Email:</strong> agrilocal4u@gmail.com</p>
-                                <p class="text-gray-300 mb-2"><strong>Phone:</strong> +91 8828906337</p>
-                                <p class="text-gray-300"><strong>Address:</strong> Mumbai, Maharashtra, India</p>
-                            </div>
-                        </section>
+            <!-- Blogs Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                <div class="bg-gray-800/50 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform cursor-pointer" onclick="openBlogModal('sugarcane')">
+                    <div class="mb-3">
+                        <img src="assets/sugarcane.png" alt="Sugarcane farming" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Sugarcane Farming Guide</h3>
+                    <p class="text-gray-300 text-sm mb-3">Complete guide to successful sugarcane cultivation in Maharashtra's climate and soil conditions.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-green-400 text-sm">5 min read</span>
+                        <span class="text-blue-400 text-sm">Updated: 2 days ago</span>
                     </div>
                 </div>
-            </main>
+
+                <div class="bg-gray-800/50 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform cursor-pointer" onclick="openBlogModal('cotton')">
+                    <div class="mb-3">
+                        <img src="assets/cotton.jpeg" alt="Cotton farming" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Cotton Cultivation Tips</h3>
+                    <p class="text-gray-300 text-sm mb-3">Essential tips for cotton farming including pest management and irrigation techniques.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-green-400 text-sm">7 min read</span>
+                        <span class="text-blue-400 text-sm">Updated: 1 week ago</span>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800/50 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform cursor-pointer" onclick="openBlogModal('soybean')">
+                    <div class="mb-3">
+                        <img src="assets/soybean.jpeg" alt="Soybean farming" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Soybean Farming in Vidarbha</h3>
+                    <p class="text-gray-300 text-sm mb-3">Comprehensive guide to soybean cultivation in Vidarbha region with market insights.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-green-400 text-sm">6 min read</span>
+                        <span class="text-blue-400 text-sm">Updated: 3 days ago</span>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800/50 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform cursor-pointer" onclick="openBlogModal('pomegranate')">
+                    <div class="mb-3">
+                        <img src="assets/pomegranate.jpeg" alt="Pomegranate farming" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Pomegranate Orchard Management</h3>
+                    <p class="text-gray-300 text-sm mb-3">Best practices for pomegranate cultivation and orchard management in Maharashtra.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-green-400 text-sm">8 min read</span>
+                        <span class="text-blue-400 text-sm">Updated: 5 days ago</span>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800/50 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform cursor-pointer" onclick="openBlogModal('turmeric')">
+                    <div class="mb-3">
+                        <img src="assets/turmeric.jpeg" alt="Turmeric farming" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Turmeric Farming Guide</h3>
+                    <p class="text-gray-300 text-sm mb-3">Complete guide to organic turmeric cultivation and value addition techniques.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-green-400 text-sm">4 min read</span>
+                        <span class="text-blue-400 text-sm">Updated: 1 week ago</span>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800/50 rounded-lg p-3 sm:p-4 hover:scale-105 transition-transform cursor-pointer" onclick="openBlogModal('mango')">
+                    <div class="mb-3">
+                        <img src="assets/mang.jpeg" alt="Mango farming" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Mango Cultivation in Konkan</h3>
+                    <p class="text-gray-300 text-sm mb-3">Specialized guide for mango farming in Konkan region with climate-specific tips.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-green-400 text-sm">9 min read</span>
+                        <span class="text-blue-400 text-sm">Updated: 4 days ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Articles Section -->
+            <section class="mt-12 sm:mt-16 glass-card p-4 sm:p-6">
+                <h2 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center text-white">Featured Articles</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                    <div class="bg-gray-800/30 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-white mb-2">Climate-Smart Agriculture in Maharashtra</h3>
+                        <p class="text-gray-300 text-sm mb-3">Learn about adapting farming practices to changing climate conditions in Maharashtra.</p>
+                        <span class="text-green-400 text-sm">Coming Soon</span>
+                    </div>
+                    <div class="bg-gray-800/30 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-white mb-2">Digital Tools for Modern Farming</h3>
+                        <p class="text-gray-300 text-sm mb-3">Explore the latest digital technologies and apps that can enhance your farming efficiency.</p>
+                        <span class="text-green-400 text-sm">Coming Soon</span>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 
     <!-- Footer Section -->
-    <footer class="glass-card border-t border-white/10">
+    <footer class="mt-24 glass-card border-t border-white/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- License Information -->
                 <div>
                     <h3 class="text-lg font-semibold text-white mb-4">License & Legal</h3>
@@ -230,8 +214,23 @@
                         <a href="index.html" class="block text-green-400 hover:text-green-300 transition-colors">Home</a>
                         <a href="index.html#about-us" class="block text-green-400 hover:text-green-300 transition-colors">About Us</a>
                         <a href="index.html#features" class="block text-green-400 hover:text-green-300 transition-colors">Features</a>
+                        <a href="dashboard.html" class="block text-green-400 hover:text-green-300 transition-colors">Dashboard</a>
+                        <a href="privacy-policy.html" class="block text-green-400 hover:text-green-300 transition-colors">Privacy Policy</a>
                         <a href="terms-of-service.html" class="block text-green-400 hover:text-green-300 transition-colors">Terms of Service</a>
                     </div>
+                </div>
+
+                <!-- Feedback Form -->
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Send Feedback</h3>
+                    <form id="feedback-form" class="space-y-3">
+                        <input type="text" id="feedback-name" placeholder="Your Name" class="w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 text-sm">
+                        <input type="email" id="feedback-email" placeholder="Your Email" class="w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 text-sm">
+                        <textarea id="feedback-message" placeholder="Your feedback or suggestions..." rows="3" class="w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-400 text-sm resize-none"></textarea>
+                        <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition-colors text-sm">
+                            Send Feedback
+                        </button>
+                    </form>
                 </div>
             </div>
             
@@ -242,6 +241,24 @@
             </div>
         </div>
     </footer>
+
+    <div id="modal" class="modal fixed inset-0 z-[101] flex items-center justify-center p-4 hidden opacity-0">
+        <div class="fixed inset-0 bg-black/50" id="modal-backdrop"></div>
+        <div id="modal-content" class="modal-content w-full max-w-4xl transform scale-95 z-10">
+            <div class="flex justify-between items-center p-4 sm:p-5 border-b border-white/10">
+                <h3 id="modal-title" class="text-xl sm:text-2xl font-bold text-white">Modal Title</h3>
+                <button id="modal-close" class="text-gray-400 hover:text-white">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div id="modal-body" class="p-4 sm:p-6 max-h-[70vh] overflow-y-auto"></div>
+        </div>
+    </div>
+    
+    <div id="language-switcher" class="lang-btn-container">
+        <button id="lang-en" class="lang-btn active">English</button>
+        <button id="lang-mr" class="lang-btn">मराठी</button>
+    </div>
 
     <script src="script.js"></script>
 </body>
